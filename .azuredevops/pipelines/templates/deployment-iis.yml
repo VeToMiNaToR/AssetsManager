@@ -1,0 +1,46 @@
+parameters:
+    - name: StageShort
+      type: string
+      values:
+          - int
+          - test
+          - prod
+    - name: ServiceConnectionName
+      type: string
+    - name: ProjectName
+      type: string
+    - name: Site
+      type: object
+    - name: WebsiteName
+      type: string
+      default: 'Default Web Site'
+
+steps:
+    - task: IISWebAppManagementOnMachineGroup@0
+      displayName: 'Stop App Pool'
+      inputs:
+        IISDeploymentType: IISApplicationPool
+        ActionIISApplicationPool: StopAppPool
+        ParentWebsiteNameForApplication: ${{ parameters.WebsiteName }}
+        VirtualPathForApplication: '/${{ parameters.ProjectName }}'
+        PhysicalPathForApplication: '%SystemDrive%\inetpub\wwwroot\${{ parameters.ProjectName }}'
+        StartStopRecycleAppPoolName: DefaultAppPool
+
+    - task: IISWebAppDeploymentOnMachineGroup@0
+      displayName: 'Deploy API'
+      inputs:
+        WebSiteName: ${{ parameters.WebsiteName }}
+        VirtualApplication: ${{ parameters.ProjectName }}
+        Package: '$(Pipeline.Workspace)/**/${{ parameters.Site.package }}'
+        RemoveAdditionalFilesFlag: true
+        TakeAppOfflineFlag: true
+
+    - task: IISWebAppManagementOnMachineGroup@0
+      displayName: 'Start App Pool'
+      inputs:
+        IISDeploymentType: IISApplicationPool
+        ActionIISApplicationPool: StartAppPool
+        ParentWebsiteNameForApplication: ${{ parameters.WebsiteName }}
+        VirtualPathForApplication: '/${{ parameters.ProjectName }}'
+        PhysicalPathForApplication: '%SystemDrive%\inetpub\wwwroot\${{ parameters.ProjectName }}'
+        StartStopRecycleAppPoolName: DefaultAppPool

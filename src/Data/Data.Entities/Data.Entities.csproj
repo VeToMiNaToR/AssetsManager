@@ -1,0 +1,21 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <AssemblyName>AssetsManager.Data.Entities</AssemblyName>
+        <RootNamespace>Devdeer.AssetsManager.Data.Entities</RootNamespace>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="devdeer.Libraries.Abstractions" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\Logic\Logic.Models\Logic.Models.csproj" />
+    </ItemGroup>
+</Project>

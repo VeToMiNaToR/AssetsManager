@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>Devdeer.AssetsManager.Logic.Core</RootNamespace>
+        <AssemblyName>AssetsManager.Logic.Core</AssemblyName>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="devdeer.Libraries.Abstractions" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Logic.Interfaces\Logic.Interfaces.csproj" />
+        <ProjectReference Include="..\Logic.Models\Logic.Models.csproj" />
+    </ItemGroup>
+</Project>

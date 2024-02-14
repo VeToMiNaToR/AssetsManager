@@ -1,0 +1,219 @@
+# Default YAML pipeline for DEVDEER projects
+# Copyright DEVDEER GmbH 2023
+#
+# Latest update: 2023-06-22
+# Description:
+# TODO
+# Sample usage:
+# TODO
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger: none
+
+variables:
+  - group: AssetsManager
+  - name: Solution
+    value: 'AssetsManager.Backend.slnf'
+  - name: DotnetTestProject
+    value: 'tests/**/*Test*.csproj'
+  - name: InfrastructureFolder
+    value: 'infrastructure'
+  - name: YarnBuildFolder
+    value: 'src/Ui/Ui.NextApp/app'
+  - name: BuildConfiguration
+    value: 'Release'
+
+steps:
+  - pwsh: |
+      $buildFile = "$(Build.ArtifactStagingDirectory)/build.txt"
+      Write-Host "Build reason: $(Build.Reason)"
+      Write-Host "Writing $(Build.BuildNumber) to $buildFile ..."
+      $(Build.BuildNumber) >> $buildFile
+      $found = (Get-ChildItem -Recurse -Filter *Test*.csproj | measure).Count -gt 0 ? 1 : 0
+      Write-Host "##vso[task.setvariable variable=doTests;]$found"
+      Write-Host "Variable 'doTests' was set to: $found"
+    displayName: 'Check for test projects'
+    workingDirectory: tests
+
+  - pwsh: |      
+      New-Item $(Build.SourcesDirectory)/.azuredevops/scripts/set-ado-prstate.ps1 -Type File -Force
+      curl https://raw.githubusercontent.com/DEVDEER/spock-content/main/scripts/set-ado-prstate.ps1 -o "$(Build.SourcesDirectory)/.azuredevops/scripts/set-ado-prstate.ps1"   
+    displayName: 'Download status check script'
+    workingDirectory: $(Build.SourcesDirectory)
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+
+  - pwsh: |
+      $pr = $(System.PullRequest.PullRequestId)        
+      $pr | Out-File -FilePath $(Build.SourcesDirectory)/pr.txt
+      Write-Host "##vso[task.setvariable variable=pr;]$pr"
+      Write-Host "Current PR: $pr"
+    displayName: 'Store PR number in file for CD'
+    workingDirectory: $(Build.SourcesDirectory)/.azuredevops/scripts
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+
+  - task: PowerShell@2    
+    displayName: 'Update CD status'
+    timeoutInMinutes: 1
+    inputs:
+      targetType: filePath
+      filePath: '$(Build.SourcesDirectory)/.azuredevops/scripts/set-ado-prstate.ps1'
+      arguments: '-CollectionUri $(System.CollectionUri) -ProjectName $(System.TeamProject) -Token $(PAT) -PullRequestId $(pr) -StatusState "Waiting" -StatusDescription "CD is waiting for CI"'
+      pwsh: true
+      workingDirectory: '$(Build.SourcesDirectory)/.azuredevops/scripts/'
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+
+  - task: CopyFiles@2
+    displayName: Copy Infrastructure script components
+    inputs:
+      sourceFolder: $(Build.SourcesDirectory)/$(InfrastructureFolder)
+      contents: '**'
+      targetFolder: $(Build.ArtifactStagingDirectory)/$(InfrastructureFolder)
+
+  - task: CopyFiles@2
+    displayName: Copy PR state file
+    condition: eq(variables['Build.Reason'], 'PullRequest')
+    inputs:
+      sourceFolder: $(Build.SourcesDirectory)
+      contents: 'pr.txt'
+      targetFolder: $(Build.ArtifactStagingDirectory)
+
+  - task: AzurePowerShell@5
+    displayName: Build BICEP
+    inputs:
+      azureSubscription: 'Azure'
+      scriptType: filePath
+      scriptPath: $(InfrastructureFolder)/build.ps1
+      azurePowerShellVersion: 'latestVersion'
+      FailOnStandardError: false
+      pwsh: true
+
+  - task: NodeTool@0
+    displayName: Install node
+    inputs:
+        versionSpec: '18.x'
+
+  - script: yarn install
+    displayName: Install NextJS UI
+    workingDirectory: $(YarnBuildFolder)
+
+  - script: yarn lint
+    displayName: Check NextJS UI code quality
+    workingDirectory: $(YarnBuildFolder)
+
+  - script: yarn build
+    displayName: Build Integration NextJS UI
+    workingDirectory: $(YarnBuildFolder)
+    env:
+        NODE_ENVIRONMENT: Integration
+
+  - task: ArchiveFiles@2
+    displayName: Archive Integration NextJS UI
+    inputs:
+        rootFolderOrFile: $(YarnBuildFolder)
+        archiveType: 'zip'
+        includeRootFolder: false
+        replaceExistingArchive: true
+        archiveFile: '$(Build.ArtifactStagingDirectory)/Ui.NextApp-INTEGRATION.zip'
+
+  - script: yarn build
+    displayName: Build Test NextJS UI
+    workingDirectory: $(YarnBuildFolder)
+    env:
+        NODE_ENVIRONMENT: Test
+
+  - task: ArchiveFiles@2
+    displayName: Archive Test NextJS UI
+    inputs:
+        rootFolderOrFile: $(YarnBuildFolder)
+        archiveType: 'zip'
+        includeRootFolder: false
+        replaceExistingArchive: true
+        archiveFile: '$(Build.ArtifactStagingDirectory)/Ui.NextApp-TEST.zip'
+
+  - script: yarn build
+    displayName: Build Production NextJS UI
+    workingDirectory: $(YarnBuildFolder)
+    env:
+        NODE_ENVIRONMENT: Production
+
+  - task: ArchiveFiles@2
+    displayName: Archive Production NextJS UI
+    inputs:
+        rootFolderOrFile: $(YarnBuildFolder)
+        archiveType: 'zip'
+        includeRootFolder: false
+        replaceExistingArchive: true
+        archiveFile: '$(Build.ArtifactStagingDirectory)/Ui.NextApp-PRODUCTION.zip'
+
+  - task: UseDotNet@2
+    displayName: Use .NET
+    inputs:
+      useGlobalJson: true
+
+  - task: DotNetCoreCLI@2
+    displayName: Restore
+    inputs:
+      projects: $(Solution)
+      arguments: '--configuration $(BuildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      projects: $(Solution)
+      arguments: '--no-restore --configuration $(BuildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    displayName: Test
+    condition: eq(variables['doTests'], '1')
+    inputs:
+      command: test
+      projects: $(ProjectsToTest)
+      arguments: '--no-restore --no-build --configuration $(BuildConfiguration)'
+
+  - script: 'dotnet tool install --global dotnet-reportgenerator-globaltool'
+    condition: eq(variables['doTests'], '1')
+    displayName: 'Install ReportGenerator tool'
+
+  - script: 'reportgenerator -reports:$(Agent.TempDirectory)/**/coverage.cobertura.xml -targetdir:$(Build.SourcesDirectory)/coverlet/reports -reporttypes:"Cobertura"'
+    condition: eq(variables['doTests'], '1')
+    displayName: 'Create test reports'
+
+  - task: PublishCodeCoverageResults@1
+    condition: eq(variables['doTests'], '1')
+    displayName: 'Publish code coverage'
+    inputs:
+      codeCoverageTool: Cobertura
+      summaryFileLocation: '$(Build.SourcesDirectory)/coverlet/reports/Cobertura.xml'
+
+  - task: DotNetCoreCLI@2
+    displayName: Publish
+    inputs:
+      command: publish
+      publishWebProjects: True
+      arguments: '--no-restore --no-build --configuration $(BuildConfiguration) --output $(Build.ArtifactStagingDirectory)'
+      zipAfterPublish: True
+
+  - bash: |
+      zip -r Services.CoreApi.zip build.txt
+      rm build.txt
+    displayName: Add build.txt to deploy zip
+    workingDirectory: $(Build.ArtifactStagingDirectory)
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+    condition: succeededOrFailed()
+
+  - task: PowerShell@2    
+    displayName: 'Update CD status'
+    timeoutInMinutes: 1
+    inputs:
+      targetType: filePath
+      filePath: '$(Build.SourcesDirectory)/.azuredevops/scripts/set-ado-prstate.ps1'
+      arguments: '-CollectionUri $(System.CollectionUri) -ProjectName $(System.TeamProject) -Token $(PAT) -PullRequestId $(pr) -StatusState "Waiting" -StatusDescription "CD is waiting for Integration stage deployment"'
+      pwsh: true
+      workingDirectory: '$(Build.SourcesDirectory)/.azuredevops/scripts/'
+    condition: eq(variables['Build.Reason'], 'PullRequest')

@@ -1,0 +1,35 @@
+pool:
+  vmImage: 'ubuntu-latest'
+
+trigger: none
+
+schedules:
+  - cron: '0 0 * * 0'
+    displayName: Weekly Build
+    branches:
+      include:
+        - dev
+
+steps:
+  - task: dependency-check.dependencycheck.dependency-check-build-task.dependency-check-build-task@6
+    displayName: 'Dependency Check'
+    inputs:
+      projectName: AssetsManager
+      scanPath: 'src/**/*.csproj'
+      format: 'HTML,JSON,JUNIT'
+  - task: PublishTestResults@2
+    displayName: 'Publish Test Results dependency-check/*junit.xml'
+    inputs:
+      testResultsFiles: 'dependency-check/*junit.xml'
+      searchFolder: '$(Common.TestResultsDirectory)'
+      testRunTitle: 'Dependency Check'
+  - powershell: |
+      $testResultFile = '$(Common.TestResultsDirectory)\dependency-check\dependency-check-junit.xml'
+      $testResults = [xml](Get-Content $testResultFile)
+      $failedTests = $testResults.SelectNodes("//testcase[error or failure]")
+
+      if ($failedTests.Count -gt 0) {
+        Write-Host "At least one test has failed."
+        exit 1
+      }
+    displayName: 'Check Test Results'

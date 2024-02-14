@@ -1,0 +1,41 @@
+parameters:
+    - name: VmImage
+      type: string
+      default: 'ubuntu-latest'
+    - name: Environment
+      type: object
+    - name: StageShort
+      type: string
+      values:
+          - int
+          - test
+          - prod
+    - name: ServiceConnectionName
+      type: string
+    - name: ProjectName
+      type: string
+    - name: Sites
+      type: object
+
+jobs:
+    - deployment: IisDeploy
+      displayName: 'Deploy On-Prem'
+      environment: ${{ parameters.Environment }}
+      pool:
+          vmImage: ${{ parameters.VmImage }}
+      strategy:
+          runOnce:
+              deploy:
+                  steps:
+                      - download: ci
+                        displayName: 'Download Artifact'
+                        artifact: drop
+
+                      - ${{ each site in parameters.Sites }}:
+                        - template: "deployment-iis.yml"
+                          parameters:
+                            StageShort: ${{ parameters.StageShort }}
+                            ServiceConnectionName: ${{ parameters.ServiceConnectionName }}
+                            ProjectName: ${{ parameters.ProjectName }}
+                            Site: ${{ site }}
+                            WebsiteName: ${{ site.WebsiteName }}

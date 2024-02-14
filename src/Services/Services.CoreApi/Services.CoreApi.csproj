@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <RootNamespace>Devdeer.AssetsManager.Services.CoreApi</RootNamespace>
+        <AssemblyName>AssetsManager.Services.CoreApi</AssemblyName>
+        <DocumentationFile>bin\$(Configuration)\$(TargetFramework)\$(AssemblyName).xml</DocumentationFile>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <PropertyGroup Condition=" '$(RunConfiguration)' == 'Kestrel' " />
+    <ItemGroup>
+        <PackageReference Include="devdeer.Libraries.Abstractions" />
+        <PackageReference Include="devdeer.Libraries.AspNetCore.RestApi" />
+        <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+        <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\Data\Data.Entities\Data.Entities.csproj" />
+        <ProjectReference Include="..\..\Logic\Logic.Core\Logic.Core.csproj" />
+        <ProjectReference Include="..\..\Logic\Logic.Interfaces\Logic.Interfaces.csproj" />
+        <ProjectReference Include="..\..\Repositories\Repositories.Core\Repositories.Core.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="nlog.config">
+            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+</Project>

@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <AssemblyName>AssetsManager.Repositories.Core</AssemblyName>
+        <RootNamespace>Devdeer.AssetsManager.Repositories.Core</RootNamespace>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="AutoMapper" />
+        <PackageReference Include="devdeer.Libraries.Repository.EntityFrameworkCore" />
+    </ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\..\Data\Data.Entities\Data.Entities.csproj" />
+        <ProjectReference Include="..\..\Logic\Logic.Interfaces\Logic.Interfaces.csproj" />
+    </ItemGroup>
+</Project>

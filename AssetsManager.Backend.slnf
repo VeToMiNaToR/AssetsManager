@@ -1,0 +1,13 @@
+{
+  "solution": {
+    "path": "AssetsManager.sln",
+    "projects": [
+      "src\\Data\\Data.Entities\\Data.Entities.csproj",
+      "src\\Logic\\Logic.Core\\Logic.Core.csproj",
+      "src\\Logic\\Logic.Interfaces\\Logic.Interfaces.csproj",
+      "src\\Logic\\Logic.Models\\Logic.Models.csproj",
+      "src\\Repositories\\Repositories.Core\\Repositories.Core.csproj",
+      "src\\Services\\Services.CoreApi\\Services.CoreApi.csproj"
+    ]
+  }
+}

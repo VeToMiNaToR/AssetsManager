@@ -1,0 +1,53 @@
+parameters:
+    - name: DeployBicep
+      type: boolean
+      default: false
+
+steps:
+    - pwsh: |                            
+        $hasPR = Test-Path pr.txt
+        Write-Host "##vso[task.setvariable variable=hasPR;]$hasPR"
+        Write-Host "hasPR before if is $hasPR"
+        if ($hasPR) {
+          $pr = Get-Content -Raw pr.txt
+          $pr = $pr.replace("`n","").replace("`r","")
+          Write-Host "##vso[task.setvariable variable=pr;]$pr"
+          Write-Host "PR number is $pr"
+          # Base64 encode the Personal Access Token 
+          $url = "https://dev.azure.com/Devdeer/AssetsManager/_apis/git/repositories/AssetsManager/pullRequests/" + $pr + "?api-version=7.0"
+          $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$(PAT)"))
+          $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+          $headers.Add('Authorization',('Basic {0}' -f $base64AuthInfo))
+          $response = Invoke-RestMethod -Uri $url -Method Get -Headers $headers -ContentType application/json
+          $status = $response.status
+          if ($status -ne "active") {
+            $hasPR = $false
+            Write-Host "##vso[task.setvariable variable=hasPR;]$hasPR"
+            Write-Host "hasPR is $hasPR"
+          }
+        }
+      displayName: 'Checking for PR trigger'
+      workingDirectory: $(Pipeline.Workspace)/ci/drop
+
+    - task: PowerShell@2
+      displayName: 'Install DEVDEER Bicep Modules'
+      condition: ${{ parameters.DeployBicep }}
+      inputs:
+          targetType: filePath
+          filePath: '$(Pipeline.Workspace)/ci/drop/infrastructure/install-modules.ps1'
+          pwsh: true
+          workingDirectory: '$(Pipeline.Workspace)/ci/drop/infrastructure'
+
+    - pwsh: |
+          $target = "$(Pipeline.Workspace)/ci/drop/pipeline-scripts/check-health.ps1"
+          New-Item $target -Type File -Force
+          curl https://raw.githubusercontent.com/DEVDEER/spock-content/main/scripts/check-health.ps1 -o $target
+      displayName: 'Download health check script'
+      workingDirectory: '$(Pipeline.Workspace)'
+    - pwsh: |
+          $target = "$(Pipeline.Workspace)/ci/drop/pipeline-scripts/set-ado-prstate.ps1"
+          New-Item $target -Type File -Force
+          curl https://raw.githubusercontent.com/DEVDEER/spock-content/main/scripts/set-ado-prstate.ps1 -o $target
+      displayName: 'Download status check script'
+      workingDirectory: '$(Pipeline.Workspace)'
+      condition: eq(variables['hasPR'], 'True')

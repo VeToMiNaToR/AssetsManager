@@ -1,0 +1,110 @@
+parameters:
+    - name: StageShort
+      type: string
+      values:
+          - int
+          - test
+          - prod
+    - name: ServiceConnectionName
+      type: string
+    - name: ProjectName
+      type: string
+    - name: Site
+      type: object
+    - name: StatusState
+      type: string
+    - name: StatusDescription
+      type: string
+
+steps:
+    - pwsh: |                            
+        $hasPR = Test-Path pr.txt
+        Write-Host "##vso[task.setvariable variable=hasPR;]$hasPR"
+        if ($hasPR) {
+          $pr = Get-Content -Raw pr.txt
+          $pr = $pr.replace("`n","").replace("`r","")
+          Write-Host "##vso[task.setvariable variable=pr;]$pr"
+          Write-Host "PR number is $pr"
+          # Base64 encode the Personal Access Token 
+          $url = "https://dev.azure.com/Devdeer/AssetsManager/_apis/git/repositories/AssetsManager/pullRequests/" + $pr + "?api-version=7.0"
+          $base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(":$(PAT)"))
+          $headers = New-Object "System.Collections.Generic.Dictionary[[String],[String]]"
+          $headers.Add('Authorization',('Basic {0}' -f $base64AuthInfo))
+          $response = Invoke-RestMethod -Uri $url -Method Get -Headers $headers -ContentType application/json
+          $status = $response.status
+          if ($status -ne "active") {
+            $hasPR = $false
+            Write-Host "##vso[task.setvariable variable=hasPR;]$hasPR"
+            Write-Host "hasPR is $hasPR"
+          }
+        }
+      displayName: 'Checking for PR trigger and reading PR'
+      workingDirectory: $(Pipeline.Workspace)/ci/drop
+    - task: PowerShell@2
+      displayName: 'Update CD state'
+      timeoutInMinutes: 1
+      inputs:
+        targetType: filePath
+        filePath: '$(Pipeline.Workspace)/ci/drop/pipeline-scripts/set-ado-prstate.ps1'
+        arguments: '-CollectionUri $(System.CollectionUri) -ProjectName $(System.TeamProject) -Token $(PAT) -PullRequestId $(pr) -StatusState "Waiting" -StatusDescription "CD is deploying to ${{ parameters.StageShort }} stage"'
+        pwsh: true
+        workingDirectory: '$(Pipeline.Workspace)/ci/drop/pipeline-scripts'
+      condition: eq(variables['hasPR'], 'True')
+
+    - task: AzureAppServiceManage@0
+      displayName: 'Stop Deploy Slot ${{ parameters.Site.name }}'
+      inputs:
+          azureSubscription: ${{ parameters.ServiceConnectionName }}
+          Action: 'Stop Azure App Service'
+          WebAppName: '${{ parameters.Site.name }}-${{ parameters.StageShort }}'
+          SpecifySlotOrASE: true
+          ResourceGroupName: 'rg-${{ parameters.ProjectName }}-${{ parameters.StageShort }}'
+          Slot: deploy
+
+    - task: AzureWebApp@1
+      displayName: 'Deploy Slot ${{ parameters.Site.name }}'
+      inputs:
+        azureSubscription: ${{ parameters.ServiceConnectionName }}
+        appName: '${{ parameters.Site.name }}-${{ parameters.StageShort }}'
+        deployToSlotOrASE: true
+        resourceGroupName: 'rg-${{ parameters.ProjectName }}-${{ parameters.StageShort }}'
+        slotName: deploy
+        package: '$(Pipeline.Workspace)/**/${{ parameters.Site.package }}'        
+        ${{ if parameters.Site.node }}:
+            RuntimeStack: 'NODE|${{ parameters.Site.node }}'
+            appType: webAppLinux
+            deploymentMethod: 'runFromPackage'
+        ${{ else }}:
+            RuntimeStack: 'DOTNETCORE|${{ parameters.Site.net }}.0'
+            appType: webAppWindows
+            deploymentMethod: 'zipDeploy'
+
+    - task: AzureAppServiceManage@0
+      displayName: 'Start Deploy Slot ${{ parameters.Site.name }}'
+      inputs:
+          azureSubscription: ${{ parameters.ServiceConnectionName }}
+          Action: 'Start Azure App Service'
+          WebAppName: '${{ parameters.Site.name }}-${{ parameters.StageShort }}'
+          SpecifySlotOrASE: true
+          ResourceGroupName: 'rg-${{ parameters.ProjectName }}-${{ parameters.StageShort }}'
+          Slot: deploy
+
+    - task: PowerShell@2
+      displayName: 'Check Slot Health ${{ parameters.Site.name }}'
+      inputs:
+          targetType: filePath
+          filePath: '$(Pipeline.Workspace)/ci/drop/pipeline-scripts/check-health.ps1'
+          workingDirectory: '$(Pipeline.Workspace)/ci/drop/pipeline-scripts'
+          ${{ if parameters.Site.healthCheckPath }}:
+              arguments: '-AppName ${{ parameters.Site.name }} -Stage ${{ parameters.StageShort }} -healthCheckPath ${{ parameters.Site.healthCheckPath }}'
+          ${{ else }}:
+              arguments: '-AppName ${{ parameters.Site.name }} -Stage ${{ parameters.StageShort }}'
+          pwsh: true
+
+    - task: AzureAppServiceManage@0
+      displayName: 'Swap Slot ${{ parameters.Site.name }}'
+      inputs:
+          azureSubscription: ${{ parameters.ServiceConnectionName }}
+          WebAppName: '${{ parameters.Site.name }}-${{ parameters.StageShort }}'
+          ResourceGroupName: 'rg-${{ parameters.ProjectName }}-${{ parameters.StageShort }}'
+          SourceSlot: deploy

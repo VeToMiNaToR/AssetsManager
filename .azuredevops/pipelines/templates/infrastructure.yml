@@ -1,0 +1,24 @@
+parameters:
+    - name: StageShort
+      type: string
+      values:
+          - int
+          - test
+          - prod
+    - name: ServiceConnectionName
+      type: string
+    - name: DeployBicep
+      type: boolean
+      default: false
+      
+steps:
+    - task: AzurePowerShell@5
+      displayName: 'Deploy Bicep'
+      condition: ${{ parameters.DeployBicep }}
+      inputs:
+          azureSubscription: ${{ parameters.ServiceConnectionName }}
+          ScriptPath: '$(Pipeline.Workspace)/ci/drop/infrastructure/deploy.ps1'
+          ScriptArguments: '-Stage ${{ parameters.StageShort }}'
+          azurePowerShellVersion: LatestVersion
+          pwsh: true
+          workingDirectory: '$(Pipeline.Workspace)/ci/drop/infrastructure'

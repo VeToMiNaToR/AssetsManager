@@ -1,0 +1,23 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "projectName": {
+            "value": "AssetsManager"
+        },
+        "location": {
+            "value": "West Europe"
+        },
+        "stage": {
+            "value": "test"
+        },
+        "sqlPassword": {
+            "reference": {
+                "keyVault": {
+                    "id": ""
+                },
+                "secretName": "AssetsManagerSqlPasswordTest"
+            }
+        }
+    }
+}
