@@ -1,4 +1,4 @@
-namespace Devdeer.AssetsManager.Services.CoreApi
+namespace devdeer.AssetsManager.Services.CoreApi
 {
     using System;
     using System.Linq;

@@ -1,11 +1,11 @@
-﻿using Devdeer.AssetsManager.Data.Entities;
+﻿using devdeer.AssetsManager.Data.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Devdeer.AssetsManager.Logic.Interfaces
+namespace devdeer.AssetsManager.Logic.Interfaces
 {
     public interface IDataEntries
     {

@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-        <RootNamespace>Devdeer.AssetsManager.Logic.Interfaces</RootNamespace>
+        <RootNamespace>devdeer.AssetsManager.Logic.Interfaces</RootNamespace>
         <AssemblyName>AssetsManager.Logic.Interfaces</AssemblyName>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Nullable>enable</Nullable>

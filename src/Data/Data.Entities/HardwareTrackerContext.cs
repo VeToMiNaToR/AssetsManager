@@ -1,8 +1,8 @@
-namespace Devdeer.AssetsManager.Data.Entities
+namespace devdeer.AssetsManager.Data.Entities
 {
     using System;
     using System.Linq;
-    using Devdeer.AssetsManager.Logic.Models;
+    using devdeer.AssetsManager.Logic.Models;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>

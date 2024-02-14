@@ -1,4 +1,4 @@
-namespace Devdeer.AssetsManager.Data.Entities.Entities.Base
+namespace devdeer.AssetsManager.Data.Entities.Entities.Base
 {
     using System;
     using System.ComponentModel.DataAnnotations;

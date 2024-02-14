@@ -1,4 +1,4 @@
-namespace Devdeer.AssetsManager.Logic.Models.Base
+namespace devdeer.AssetsManager.Logic.Models.Base
 {
     using System;
     using System.Linq;

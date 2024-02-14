@@ -1,4 +1,4 @@
-namespace Devdeer.AssetsManager.Data.Entities
+namespace devdeer.AssetsManager.Data.Entities
 {
     using System;
     using System.Linq;

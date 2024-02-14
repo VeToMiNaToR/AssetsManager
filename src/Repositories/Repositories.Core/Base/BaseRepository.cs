@@ -1,4 +1,4 @@
-namespace Devdeer.AssetsManager.Repositories.Core.Base
+namespace devdeer.AssetsManager.Repositories.Core.Base
 {
     using System;
     using System.Linq;

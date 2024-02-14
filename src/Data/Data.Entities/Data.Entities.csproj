@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <AssemblyName>AssetsManager.Data.Entities</AssemblyName>
-        <RootNamespace>Devdeer.AssetsManager.Data.Entities</RootNamespace>
+        <RootNamespace>devdeer.AssetsManager.Data.Entities</RootNamespace>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Nullable>enable</Nullable>
     </PropertyGroup>

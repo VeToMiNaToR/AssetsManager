@@ -6,7 +6,7 @@ using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Devdeer.AssetsManager.Logic.Models
+namespace devdeer.AssetsManager.Logic.Models
 {
     public class DataEntriesModel
     {
