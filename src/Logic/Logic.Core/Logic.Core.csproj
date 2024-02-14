@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
-        <RootNamespace>Devdeer.AssetsManager.Logic.Core</RootNamespace>
+        <RootNamespace>devdeer.AssetsManager.Logic.Core</RootNamespace>
         <AssemblyName>AssetsManager.Logic.Core</AssemblyName>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Nullable>enable</Nullable>

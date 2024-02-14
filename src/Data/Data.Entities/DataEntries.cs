@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Devdeer.AssetsManager.Data.Entities
+namespace devdeer.AssetsManager.Data.Entities
 {
     public class DataEntries
     {

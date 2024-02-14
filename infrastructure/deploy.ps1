@@ -28,15 +28,15 @@ if (!($bicepContent -match "targetScope = '(.*)'")) {
 }
 $targetScope = $Matches[1]
 
-# ensure that Devdeer.Azure modules is present
-if ((Get-Module -all | Select-String -Raw Devdeer.Azure | Measure-Object).Count -eq 0) {
-	Write-Host "Installing Devdeer.Azure Powershell..."
-	Install-Module Devdeer.Azure -Force
-	Import-Module Devdeer.Azure
+# ensure that devdeer.Azure modules is present
+if ((Get-Module -all | Select-String -Raw devdeer.Azure | Measure-Object).Count -eq 0) {
+	Write-Host "Installing devdeer.Azure Powershell..."
+	Install-Module devdeer.Azure -Force
+	Import-Module devdeer.Azure
 	Write-Host "Done"
 }
 else {
-	Write-Host "Module Devdeer.Azure Powershell was found."
+	Write-Host "Module devdeer.Azure Powershell was found."
 }
 
 # ensure that DEVDEER BICEP modules are installed

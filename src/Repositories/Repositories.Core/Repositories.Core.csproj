@@ -2,7 +2,7 @@
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <AssemblyName>AssetsManager.Repositories.Core</AssemblyName>
-        <RootNamespace>Devdeer.AssetsManager.Repositories.Core</RootNamespace>
+        <RootNamespace>devdeer.AssetsManager.Repositories.Core</RootNamespace>
         <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
         <Nullable>enable</Nullable>
     </PropertyGroup>

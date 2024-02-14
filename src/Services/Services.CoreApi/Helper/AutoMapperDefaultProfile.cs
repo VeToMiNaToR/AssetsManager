@@ -1,4 +1,4 @@
-namespace Devdeer.AssetsManager.Services.CoreApi.Helper
+namespace devdeer.AssetsManager.Services.CoreApi.Helper
 {
     using System;
     using System.Linq;

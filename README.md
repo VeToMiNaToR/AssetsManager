@@ -2,8 +2,8 @@
 
 | Pipeline | Status                                                                                                                                                                                                                |
 | -------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| CI       | [![Build Status](https://dev.azure.com/Devdeer/AssetsManager/_apis/build/status%2FAssetsManager%20CI?branchName=dev)](https://dev.azure.com/Devdeer/AssetsManager/_build/latest?definitionId=3&branchName=dev) |
-| CD       | [![Build Status](https://dev.azure.com/Devdeer/AssetsManager/_apis/build/status%2FAssetsManager%20CD?branchName=dev)](https://dev.azure.com/Devdeer/AssetsManager/_build/latest?definitionId=2&branchName=dev) |
+| CI       | [![Build Status](https://dev.azure.com/devdeer/AssetsManager/_apis/build/status%2FAssetsManager%20CI?branchName=dev)](https://dev.azure.com/devdeer/AssetsManager/_build/latest?definitionId=3&branchName=dev) |
+| CD       | [![Build Status](https://dev.azure.com/devdeer/AssetsManager/_apis/build/status%2FAssetsManager%20CD?branchName=dev)](https://dev.azure.com/devdeer/AssetsManager/_build/latest?definitionId=2&branchName=dev) |
 
 # Resources
 
@@ -95,7 +95,7 @@ podman run --name storage-dev -p 10000:10000 -p 10001:10001 -p 10002:10002 -d mc
 
 # Open firewalls to Cloud Databases
 
-Create and delete firewall rules for the stage specific SQL-Server to access them using the Devdeer.Azure Powershell Module:
+Create and delete firewall rules for the stage specific SQL-Server to access them using the devdeer.Azure Powershell Module:
 
 ```powershell
 # Integration
