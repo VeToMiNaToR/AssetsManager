@@ -12,102 +12,116 @@ using System.Threading.Tasks;
 namespace devdeer.AssetsManager.Data.Entities.Entities
 {
     /// <summary>
-    /// Represents an Asset in the DataStore.
+    /// Represents an asset in the datastore.
     /// </summary>
     [Table(nameof(Asset), Schema = "BaseData")]
     public class Asset : BaseEntity
     {
-        #region Properties
+        #region properties
         /// <summary>
-        /// Represents the Foreign Key to Brand Entity.
+        /// Represents the foreign key to brand entity.
         /// </summary>
         [Required]
         public long BrandId { get; set; } = default!;
-        public virtual Brand Brand { get; set; } = default!; //Navigation Property.
+
+        public virtual Brand Brand { get; set; } = default!; 
 
         /// <summary>
-        /// Represents the Foreign Key to Category Entity.
+        /// Represents the foreign key to category entity.
         /// </summary>
         public long CategoryId { get; set; } = default!;
-        public virtual Category Category { get; set; } = default!; //Navigation Property.
+
+        public virtual Category Category { get; set; } = default!;
 
         /// <summary>
-        /// Represents the Foreign Key to Location Entity.
+        /// Represents the foreign key to location entity.
         /// </summary>
         public long LocationId { get; set; } = default!;
-        public virtual Location Location { get; set; } = default!; //Navigation Property.
+
+        public virtual Location Location { get; set; } = default!; 
 
         /// <summary>
-        /// Represents the Foreign Key to Workplace Entity.
+        /// Represents the foreign key to workplace entity.
         /// </summary>
         public long WorkplaceId { get; set; } = default!;
-        public virtual Workplace Workplace { get; set; } = default!; //Navigation Property.
+
+        public virtual Workplace Workplace { get; set; } = default!; 
 
         /// <summary>
-        /// Represents the Foreign Key to Worker Entity.
+        /// Represents the foreign key to worker entity.
         /// </summary>
         public long WorkerId { get; set; } = default!;
-        public virtual Worker Worker { get; set; } = default!; //Navigation Property.
+
+        public virtual Worker Worker { get; set; } = default!; 
 
         /// <summary>
-        /// Represents a Unique AssetKey of an Asset.
+        /// Represents a unique assetkey of an asset.
         /// </summary>
         [Required]
         [StringLength(50)]
         public string AssetKey { get; set; } = default!;
 
         /// <summary>
-        /// Represents a Unique Serial Number of an Asset.
+        /// Represents a unique serial number of an asset.
         /// </summary>
         [Required]
         [StringLength(50)]
         public string SerialNumber { get; set; } = default!;
 
         /// <summary>
-        /// Represents the Condition Status of an Asset.
+        /// Represents a list of conditions of an asset.
         /// </summary>
-        [Required]
-        public bool Condition { get; set; } = default!;
+        public enum Condition
+        {
+            Functional,
+            Malfunctional,
+            Inoperable,
+            RMA
+        }
+        /// <summary>
+        /// Represents the condition status of an asset.
+        /// </summary>
+        public Condition AssetState { get; set; } = default!;
 
         /// <summary>
-        /// Represents the Date when the Asset was Aquired.
+        /// Represents the date when the asset was aquired.
         /// </summary>
         public DateOnly AcquisitionDate { get; set; } = default!;
 
         /// <summary>
-        /// Represents the Usage Status of an Asset.
+        /// Represents the usage status of an asset.
         /// </summary>
         [Required]
         public bool IsUsed { get; set; } = default!;
 
         /// <summary>
-        /// Represents the Leased Status of an Asset.
+        /// Represents the leased status of an asset.
         /// </summary>
         [Required]
         public bool IsLeased { get; set; } = default!;
 
         /// <summary>
-        /// Represents a Comment for an Asset.
+        /// Represents a comment for an asset.
         /// </summary>
         public string Comment { get; set; } = default!;
 
         /// <summary>
-        /// Represents the Name of the Model of an Asset.
+        /// Represents the name of the model of an asset.
         /// </summary>
         [Required]
         [StringLength(50)]
         public string ModelName { get; set; } = default!;
 
         /// <summary>
-        /// Represents the Path to the Picture of an Asset.
+        /// Represents the path to the picture of an asset.
         /// </summary>
-        [Required]
+        [StringLength(250)]
         public string PrimaryImagePath { get; set; } = default!;
 
         /// <summary>
-        /// Represents the Path to the Picture of the Label of an Asset.
+        /// Represents the path to the picture of the label of an asset.
         /// </summary>
-        [StringLength(100)]
+        [StringLength(250)]
         public string SecondaryImagePath { get; set; } = default!;
         #endregion
     }

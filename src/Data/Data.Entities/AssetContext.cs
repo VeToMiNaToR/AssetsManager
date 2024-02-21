@@ -11,16 +11,22 @@ namespace devdeer.AssetsManager.Data.Entities
     /// </summary>
     public class AssetsManagerContext : DbContext
     {
+        //<inherit.doc>//
         public DbSet<Asset> Assets { get; set; }
 
+        //<inherit.doc>//
         public DbSet<Brand> Brands { get; set; }
 
+        //<inherit.doc>//
         public DbSet<Category> Categories { get; set; }
 
+        //<inherit.doc>//
         public DbSet<Location> Locations { get; set; }
 
+        //<inherit.doc>//
         public DbSet<Worker> Workers { get; set; }
 
+        //<inherit.doc>//
         public DbSet<Workplace> Workplaces { get; set; }
 
         #region constructors and destructors
