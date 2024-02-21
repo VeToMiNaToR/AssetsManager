@@ -2,6 +2,7 @@ namespace devdeer.AssetsManager.Data.Entities
 {
     using System;
     using System.Linq;
+    using devdeer.AssetsManager.Data.Entities.Entities;
     using devdeer.AssetsManager.Logic.Models;
     using Microsoft.EntityFrameworkCore;
 
@@ -10,8 +11,17 @@ namespace devdeer.AssetsManager.Data.Entities
     /// </summary>
     public class AssetsManagerContext : DbContext
     {
+        public DbSet<Asset> Assets { get; set; }
 
-        public DbSet<DataEntriesModel> DataEntries { get; set; }
+        public DbSet<Brand> Brands { get; set; }
+
+        public DbSet<Category> Categories { get; set; }
+
+        public DbSet<Location> Locations { get; set; }
+
+        public DbSet<Worker> Workers { get; set; }
+
+        public DbSet<Workplace> Workplaces { get; set; }
 
         #region constructors and destructors
 

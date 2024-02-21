@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace devdeer.AssetsManager.Logic.Models
 {
-    public class DataEntriesModel
+    public class AssetModel
     {
         public string InventoryCode { get; set; } = default!;
 

@@ -1,4 +1,5 @@
 ﻿using devdeer.AssetsManager.Data.Entities;
+using devdeer.AssetsManager.Data.Entities.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,17 +8,17 @@ using System.Threading.Tasks;
 
 namespace devdeer.AssetsManager.Logic.Interfaces
 {
-    public interface IDataEntries
+    public interface IAsset
     {
-        Task<DataEntries> CreateAsync(DataEntries entries);
+        Task<Asset> CreateAsync(Asset entries);
 
         Task<bool> DeleteAsync(string InventoryCode);
 
-        Task<DataEntries[]> GetAsync();
+        Task<Asset[]> GetAsync();
 
-        Task<DataEntries?> GetAsync(string InventoryCode);
+        Task<Asset?> GetAsync(string InventoryCode);
 
-        Task<DataEntries> UpdateAsync(DataEntries entries);
+        Task<Asset> UpdateAsync(Asset entries);
 
         Task<int> GetCountAsync();
     }

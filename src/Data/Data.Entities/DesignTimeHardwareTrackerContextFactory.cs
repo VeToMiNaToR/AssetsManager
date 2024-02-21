@@ -15,7 +15,7 @@ namespace devdeer.AssetsManager.Data.Entities
         public AssetsManagerContext CreateDbContext(string[] args)
         {
             var options = new DbContextOptionsBuilder<AssetsManagerContext>().UseSqlServer(
-                    "Server=localhost,1433;Database=AssetsManager;User Id=sa;Password=Sql-Server-Dev;App=LocalDev-Service.Api;Encrypt=True;TrustServerCertificate=True",
+                    "ConnectionStrings=AssetsManager",
                     o =>
                     {
                         o.MigrationsHistoryTable("MigrationHistory", "SystemData");
