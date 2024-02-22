@@ -3,7 +3,6 @@ namespace devdeer.AssetsManager.Data.Entities
     using System;
     using System.Linq;
     using devdeer.AssetsManager.Data.Entities.Entities;
-    using devdeer.AssetsManager.Logic.Models;
     using Microsoft.EntityFrameworkCore;
 
     /// <summary>

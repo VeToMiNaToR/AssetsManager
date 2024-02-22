@@ -1,5 +1,5 @@
 ﻿using Azure.Core;
-using devdeer.AssetsManager.Data.Entities.Entities.Base;
+using devdeer.Libraries.Abstractions.BaseTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -14,7 +14,7 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
     /// <summary>
     /// Represents an asset in the datastore.
     /// </summary>
-    [Table(nameof(Asset), Schema = "BaseData")]
+    [Table(nameof(Asset), Schema = "AssetData")]
     public class Asset : BaseEntity
     {
         #region properties
@@ -58,7 +58,7 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         /// Represents a unique assetkey of an asset.
         /// </summary>
         [Required]
-        [StringLength(50)]
+        [StringLength(10)]
         public string AssetKey { get; set; } = default!;
 
         /// <summary>
@@ -69,19 +69,9 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         public string SerialNumber { get; set; } = default!;
 
         /// <summary>
-        /// Represents a list of conditions of an asset.
-        /// </summary>
-        public enum Condition
-        {
-            Functional,
-            Malfunctional,
-            Inoperable,
-            RMA
-        }
-        /// <summary>
         /// Represents the condition status of an asset.
         /// </summary>
-        public Condition AssetState { get; set; } = default!;
+        public bool AssetState { get; set; } = default!;
 
         /// <summary>
         /// Represents the date when the asset was aquired.
@@ -103,6 +93,7 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         /// <summary>
         /// Represents a comment for an asset.
         /// </summary>
+        [StringLength(500)]
         public string Comment { get; set; } = default!;
 
         /// <summary>
@@ -115,13 +106,13 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         /// <summary>
         /// Represents the path to the picture of an asset.
         /// </summary>
-        [StringLength(250)]
+        [StringLength(500)]
         public string PrimaryImagePath { get; set; } = default!;
 
         /// <summary>
         /// Represents the path to the picture of the label of an asset.
         /// </summary>
-        [StringLength(250)]
+        [StringLength(500)]
         public string SecondaryImagePath { get; set; } = default!;
         #endregion
     }

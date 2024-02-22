@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using devdeer.AssetsManager.Data.Entities;
 
@@ -11,9 +12,11 @@ using devdeer.AssetsManager.Data.Entities;
 namespace devdeer.AssetsManager.Data.Entities.Migrations
 {
     [DbContext(typeof(AssetsManagerContext))]
-    partial class AssetsManagerContextModelSnapshot : ModelSnapshot
+    [Migration("20240222112715_FirstMigration")]
+    partial class FirstMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

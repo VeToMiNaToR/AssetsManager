@@ -1,4 +1,5 @@
-﻿using devdeer.AssetsManager.Data.Entities.Entities.Base;
+﻿
+using devdeer.Libraries.Abstractions.BaseTypes;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
