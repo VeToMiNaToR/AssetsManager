@@ -40,8 +40,11 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
 
-                    b.Property<bool>("AssetState")
-                        .HasColumnType("bit");
+                    b.Property<int>("AssetState")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Availability")
+                        .HasColumnType("int");
 
                     b.Property<long>("BrandId")
                         .HasColumnType("bigint");
@@ -54,12 +57,6 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
 
-                    b.Property<bool>("IsLeased")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsUsed")
-                        .HasColumnType("bit");
-
                     b.Property<long>("LocationId")
                         .HasColumnType("bigint");
 
@@ -68,15 +65,18 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("Ownership")
+                        .HasColumnType("int");
+
                     b.Property<string>("PrimaryImagePath")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("SecondaryImagePath")
                         .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<string>("SerialNumber")
                         .IsRequired()

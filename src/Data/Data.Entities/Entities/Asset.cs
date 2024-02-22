@@ -8,6 +8,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Logic.Common.Enums;
 
 namespace devdeer.AssetsManager.Data.Entities.Entities
 {
@@ -24,6 +25,9 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         [Required]
         public long BrandId { get; set; } = default!;
 
+        /// <summary>
+        /// Represents the gateway to access the properties of the brand entity.
+        /// </summary>
         public virtual Brand Brand { get; set; } = default!; 
 
         /// <summary>
@@ -31,6 +35,9 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         /// </summary>
         public long CategoryId { get; set; } = default!;
 
+        /// <summary>
+        /// Represents the gateway to access the properties of the category entity.
+        /// </summary>
         public virtual Category Category { get; set; } = default!;
 
         /// <summary>
@@ -38,6 +45,9 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         /// </summary>
         public long LocationId { get; set; } = default!;
 
+        /// <summary>
+        /// Represents the gateway to access the properties of the location entity.
+        /// </summary>
         public virtual Location Location { get; set; } = default!; 
 
         /// <summary>
@@ -45,6 +55,9 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         /// </summary>
         public long WorkplaceId { get; set; } = default!;
 
+        /// <summary>
+        /// Represents the gateway to access the properties of the workplace entity.
+        /// </summary>
         public virtual Workplace Workplace { get; set; } = default!; 
 
         /// <summary>
@@ -52,6 +65,9 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         /// </summary>
         public long WorkerId { get; set; } = default!;
 
+        /// <summary>
+        /// Represents the gateway to access the properties of the worker entity.
+        /// </summary>
         public virtual Worker Worker { get; set; } = default!; 
 
         /// <summary>
@@ -69,9 +85,9 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         public string SerialNumber { get; set; } = default!;
 
         /// <summary>
-        /// Represents the condition status of an asset.
+        /// Represents the condition state of an asset.
         /// </summary>
-        public bool AssetState { get; set; } = default!;
+        public Condition AssetState { get; set; } = default!;
 
         /// <summary>
         /// Represents the date when the asset was aquired.
@@ -79,16 +95,16 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         public DateOnly AcquisitionDate { get; set; } = default!;
 
         /// <summary>
-        /// Represents the usage status of an asset.
+        /// Represents the usage state of an asset.
         /// </summary>
         [Required]
-        public bool IsUsed { get; set; } = default!;
+        public UsageState Availability { get; set; } = default!;
 
         /// <summary>
-        /// Represents the leased status of an asset.
+        /// Represents the ownership state of an asset.
         /// </summary>
         [Required]
-        public bool IsLeased { get; set; } = default!;
+        public PropertyState Ownership { get; set; } = default!;
 
         /// <summary>
         /// Represents a comment for an asset.

@@ -101,14 +101,14 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
                     WorkerId = table.Column<long>(type: "bigint", nullable: false),
                     AssetKey = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     SerialNumber = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    AssetState = table.Column<bool>(type: "bit", nullable: false),
+                    AssetState = table.Column<int>(type: "int", nullable: false),
                     AcquisitionDate = table.Column<DateOnly>(type: "date", nullable: false),
-                    IsUsed = table.Column<bool>(type: "bit", nullable: false),
-                    IsLeased = table.Column<bool>(type: "bit", nullable: false),
+                    Availability = table.Column<int>(type: "int", nullable: false),
+                    Ownership = table.Column<int>(type: "int", nullable: false),
                     Comment = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     ModelName = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
-                    PrimaryImagePath = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false),
-                    SecondaryImagePath = table.Column<string>(type: "nvarchar(250)", maxLength: 250, nullable: false)
+                    PrimaryImagePath = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
+                    SecondaryImagePath = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false)
                 },
                 constraints: table =>
                 {
