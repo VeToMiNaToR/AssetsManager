@@ -40,6 +40,9 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("AssetState")
+                        .HasColumnType("int");
+
                     b.Property<long>("BrandId")
                         .HasColumnType("bigint");
 
@@ -49,9 +52,6 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool>("Condition")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsLeased")
                         .HasColumnType("bit");
@@ -69,12 +69,13 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
 
                     b.Property<string>("PrimaryImagePath")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("SecondaryImagePath")
                         .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
 
                     b.Property<string>("SerialNumber")
                         .IsRequired()
@@ -112,14 +113,14 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Brands");
+                    b.ToTable("Brand", "BaseData");
                 });
 
             modelBuilder.Entity("devdeer.AssetsManager.Data.Entities.Entities.Category", b =>
@@ -132,14 +133,14 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Category", "BaseData");
                 });
 
             modelBuilder.Entity("devdeer.AssetsManager.Data.Entities.Entities.Location", b =>
@@ -152,14 +153,14 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Locations");
+                    b.ToTable("Location", "BaseData");
                 });
 
             modelBuilder.Entity("devdeer.AssetsManager.Data.Entities.Entities.Worker", b =>
@@ -172,14 +173,14 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workers");
+                    b.ToTable("Worker", "BaseData");
                 });
 
             modelBuilder.Entity("devdeer.AssetsManager.Data.Entities.Entities.Workplace", b =>
@@ -192,14 +193,14 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("Name")
+                    b.Property<string>("Label")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Workplaces");
+                    b.ToTable("Workplace", "BaseData");
                 });
 
             modelBuilder.Entity("devdeer.AssetsManager.Data.Entities.Entities.Asset", b =>
