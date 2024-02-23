@@ -11,30 +11,32 @@ namespace devdeer.AssetsManager.Data.Entities
     public class AssetsManagerContext : DbContext
     {
         /// <summary>
-        /// 
+        /// Represents the referance to all assets in the datastore.
         /// </summary>
         public DbSet<Asset> Assets { get; set; }
 
         /// <summary>
-        /// 
+        /// Represents the referance to all brands in the datastore.
         /// </summary>
         public DbSet<Brand> Brands { get; set; }
 
         /// <summary>
-        /// 
+        /// Represents the referance to all categories in the datastore.
         /// </summary>
         public DbSet<Category> Categories { get; set; }
 
-        //<inherit.doc>//
+        /// <summary>
+        /// Represents the referance to all locations in the datastore.
+        /// </summary>
         public DbSet<Location> Locations { get; set; }
 
         /// <summary>
-        /// 
+        /// Represents the referance to all workers in the datastore.
         /// </summary>
         public DbSet<Worker> Workers { get; set; }
 
         /// <summary>
-        /// 
+        /// Represents the referance to all workplace in the datastore.
         /// </summary>
         public DbSet<Workplace> Workplaces { get; set; }
 

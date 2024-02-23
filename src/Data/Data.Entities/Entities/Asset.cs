@@ -1,4 +1,6 @@
 ﻿using Azure.Core;
+using devdeer.AssetsManager.Data.Entities.Entities;
+using devdeer.AssetsManager.Logic.Common;
 using devdeer.Libraries.Abstractions.BaseTypes;
 using System;
 using System.Collections.Generic;
@@ -8,9 +10,8 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using static Logic.Common.Enums;
 
-namespace devdeer.AssetsManager.Data.Entities.Entities
+namespace devdeer.AssetsManager.Data.Entities
 {
     /// <summary>
     /// Represents an asset in the datastore.
@@ -26,7 +27,7 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         public long BrandId { get; set; } = default!;
 
         /// <summary>
-        /// Represents the gateway to access the properties of the brand entity.
+        /// Represents the data of the related brand.
         /// </summary>
         public virtual Brand Brand { get; set; } = default!; 
 
@@ -36,7 +37,7 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         public long CategoryId { get; set; } = default!;
 
         /// <summary>
-        /// Represents the gateway to access the properties of the category entity.
+        /// Represents the data of the related category.
         /// </summary>
         public virtual Category Category { get; set; } = default!;
 
@@ -46,7 +47,7 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         public long LocationId { get; set; } = default!;
 
         /// <summary>
-        /// Represents the gateway to access the properties of the location entity.
+        /// Represents the data of the related location.
         /// </summary>
         public virtual Location Location { get; set; } = default!; 
 
@@ -56,7 +57,7 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         public long WorkplaceId { get; set; } = default!;
 
         /// <summary>
-        /// Represents the gateway to access the properties of the workplace entity.
+        /// Represents the data of the related workplace.
         /// </summary>
         public virtual Workplace Workplace { get; set; } = default!; 
 
@@ -66,7 +67,7 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         public long WorkerId { get; set; } = default!;
 
         /// <summary>
-        /// Represents the gateway to access the properties of the worker entity.
+        /// Represents the data of the related worker.
         /// </summary>
         public virtual Worker Worker { get; set; } = default!; 
 
