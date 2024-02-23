@@ -87,7 +87,7 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         /// <summary>
         /// Represents the condition state of an asset.
         /// </summary>
-        public Condition AssetState { get; set; } = default!;
+        public Condition State { get; set; } = default!;
 
         /// <summary>
         /// Represents the date when the asset was aquired.
