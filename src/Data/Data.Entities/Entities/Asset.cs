@@ -2,6 +2,7 @@
 using devdeer.AssetsManager.Data.Entities.Entities;
 using devdeer.AssetsManager.Logic.Common;
 using devdeer.Libraries.Abstractions.BaseTypes;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -34,6 +35,7 @@ namespace devdeer.AssetsManager.Data.Entities
         /// <summary>
         /// Represents the foreign key to category entity.
         /// </summary>
+        [Required]
         public long CategoryId { get; set; } = default!;
 
         /// <summary>
@@ -44,6 +46,7 @@ namespace devdeer.AssetsManager.Data.Entities
         /// <summary>
         /// Represents the foreign key to location entity.
         /// </summary>
+        [Required]
         public long LocationId { get; set; } = default!;
 
         /// <summary>

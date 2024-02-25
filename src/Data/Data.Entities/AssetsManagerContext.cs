@@ -59,6 +59,9 @@ namespace devdeer.AssetsManager.Data.Entities
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Asset>()
+            .HasIndex(a => a.AssetKey)
+            .IsUnique();
         }
 
         #endregion

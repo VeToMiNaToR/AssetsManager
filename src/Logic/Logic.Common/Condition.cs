@@ -6,10 +6,11 @@
     /// </summary>
     public enum Condition
     {
-        Functional,
-        Malfunctional,
-        Inoperable,
-        RMA,
+        Undefined = 0,
+        Functional = 1,
+        Malfunctional = 2,
+        Inoperable = 3,
+        RMA = 4
     }
     #endregion
 }

@@ -12,9 +12,10 @@ namespace devdeer.AssetsManager.Logic.Common
     /// </summary>
     public enum PropertyState 
     {
-        Leased,
-        Rented,
-        Property,
+        Undefined = 0,
+        Leased = 1,
+        Rented = 2,
+        Property = 3
     }
     #endregion
 }

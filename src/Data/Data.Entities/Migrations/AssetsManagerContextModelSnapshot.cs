@@ -22,7 +22,7 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("devdeer.AssetsManager.Data.Entities.Entities.Asset", b =>
+            modelBuilder.Entity("devdeer.AssetsManager.Data.Entities.Asset", b =>
                 {
                     b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
@@ -39,9 +39,6 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
                         .IsRequired()
                         .HasMaxLength(10)
                         .HasColumnType("nvarchar(10)");
-
-                    b.Property<int>("AssetState")
-                        .HasColumnType("int");
 
                     b.Property<int>("Availability")
                         .HasColumnType("int");
@@ -83,6 +80,9 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("State")
+                        .HasColumnType("int");
+
                     b.Property<long>("WorkerId")
                         .HasColumnType("bigint");
 
@@ -90,6 +90,9 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("AssetKey")
+                        .IsUnique();
 
                     b.HasIndex("BrandId");
 
@@ -204,7 +207,7 @@ namespace devdeer.AssetsManager.Data.Entities.Migrations
                     b.ToTable("Workplace", "BaseData");
                 });
 
-            modelBuilder.Entity("devdeer.AssetsManager.Data.Entities.Entities.Asset", b =>
+            modelBuilder.Entity("devdeer.AssetsManager.Data.Entities.Asset", b =>
                 {
                     b.HasOne("devdeer.AssetsManager.Data.Entities.Entities.Brand", "Brand")
                         .WithMany()

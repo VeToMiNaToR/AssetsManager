@@ -8,11 +8,10 @@ namespace devdeer.AssetsManager.Logic.Common
     /// </summary>
     public enum UsageState
     {
-        [Display(Name = "In Use")]
-        InUse,
-        [Display(Name = "Not Available")]
-        NotAvailable,
-        Available,
+        Undefined = 0,
+        InUse = 1,
+        NotAvailable = 2,
+        Available = 3
     }
     #endregion
 }
