@@ -10,6 +10,8 @@ namespace devdeer.AssetsManager.Data.Entities
     /// </summary>
     public class AssetsManagerContext : DbContext
     {
+        #region properties
+
         /// <summary>
         /// Represents the referance to all assets in the datastore.
         /// </summary>
@@ -40,6 +42,8 @@ namespace devdeer.AssetsManager.Data.Entities
         /// </summary>
         public DbSet<Workplace> Workplaces { get; set; }
 
+        #endregion
+
         #region constructors and destructors
 
         /// <summary>
@@ -54,13 +58,12 @@ namespace devdeer.AssetsManager.Data.Entities
 
         #region methods
 
-
         /// <inheritdoc />
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Asset>()
-            .HasIndex(a => a.AssetKey)
+            .HasIndex(a => a.AssetKey,"UX_Asset_AssetKey")
             .IsUnique();
         }
 

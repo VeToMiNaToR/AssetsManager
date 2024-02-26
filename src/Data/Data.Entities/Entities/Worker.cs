@@ -22,6 +22,7 @@ namespace devdeer.AssetsManager.Data.Entities.Entities
         /// Represents the name of a worker of an asset.
         /// </summary>
         [StringLength(50)]
+        [Required]
         public string Label { get; set; } = default!;
 
         #endregion
