@@ -57,7 +57,7 @@ namespace devdeer.AssetsManager.Data.Entities
         /// <summary>
         /// Represents the foreign key to workplace entity.
         /// </summary>
-        public long WorkplaceId { get; set; } = default!;
+        public long? WorkplaceId { get; set; }
 
         /// <summary>
         /// Represents the data of the related workplace.
@@ -67,7 +67,7 @@ namespace devdeer.AssetsManager.Data.Entities
         /// <summary>
         /// Represents the foreign key to worker entity.
         /// </summary>
-        public long WorkerId { get; set; } = default!;
+        public long? WorkerId { get; set; }
 
         /// <summary>
         /// Represents the data of the related worker.
