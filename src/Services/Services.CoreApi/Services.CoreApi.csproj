@@ -13,6 +13,7 @@
         <PackageReference Include="devdeer.Libraries.AspNetCore.RestApi" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
         <PackageReference Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" />
     </ItemGroup>
     <ItemGroup>
         <ProjectReference Include="..\..\Data\Data.Entities\Data.Entities.csproj" />
