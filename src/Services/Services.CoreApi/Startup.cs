@@ -25,7 +25,9 @@ namespace devdeer.AssetsManager.Services.CoreApi
 
         private readonly ConfigurationOptions _options = new()
         {
-            SkipAutomaticHealthCheckConfig = false
+            SkipAutomaticHealthCheckConfig = false,
+            AutoRegisterDefaultServices = true,
+            AutoRegisterModelMapping = true
         };
 
         #endregion
@@ -94,8 +96,6 @@ namespace devdeer.AssetsManager.Services.CoreApi
             // AutoMapper
             services.AddAutoMapper(typeof(AutoMapperDefaultProfile));
             // Config.
-            // Repositories.
-            // Logic.
         }
 
         #endregion
