@@ -1,15 +1,12 @@
-﻿
-using devdeer.Libraries.Abstractions.BaseTypes;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace devdeer.AssetsManager.Data.Entities.Entities
+﻿namespace devdeer.AssetsManager.Data.Entities.Entities
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
+
+    using Libraries.Abstractions.BaseTypes;
+
     /// <summary>
     /// Represents the category of an asset in the datastore.
     /// </summary>

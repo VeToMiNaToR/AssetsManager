@@ -14,8 +14,6 @@
     using Logic.Interfaces.Repositories;
     using Logic.Models;
 
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Metadata.Internal;
     using Microsoft.Extensions.Logging;
 
     /// <summary>

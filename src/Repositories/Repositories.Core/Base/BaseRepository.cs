@@ -7,8 +7,8 @@ namespace devdeer.AssetsManager.Repositories.Core.Base
 
     using Data.Entities;
 
-    using devdeer.Libraries.Abstractions.Interfaces;
-    using devdeer.Libraries.Repository.EntityFrameworkCore.Repositories;
+    using Libraries.Abstractions.Interfaces;
+    using Libraries.Repository.EntityFrameworkCore.Repositories;
 
     using Microsoft.Extensions.Logging;
 

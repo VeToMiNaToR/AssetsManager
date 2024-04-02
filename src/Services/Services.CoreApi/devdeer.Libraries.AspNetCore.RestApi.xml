@@ -1,0 +1,1081 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>devdeer.Libraries.AspNetCore.RestApi</name>
+    </assembly>
+    <members>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Attributes.SwaggerOperationAttribute">
+            <summary>
+            If gets applied to a controller method allows to define the operation id for swagger.
+            </summary>
+            <remarks>
+            Only gets applied if the <see cref="T:devdeer.Libraries.AspNetCore.RestApi.Filters.SwaggerOperationIdFilter" /> is registered (default behavior of this library).
+            </remarks>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Attributes.SwaggerOperationAttribute.#ctor(System.String)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="operationId">The operation id to assign to the method.</param>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Attributes.SwaggerOperationAttribute.OperationId">
+            <summary>
+            The operation id to assign to the method.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseController`4">
+            <summary>
+            Abstract base class for all API controllers.
+            </summary>
+            <typeparam name="TModel">The type of the model the logic of this controller handles.</typeparam>
+            <typeparam name="TCreateModel">The type that is sent for create operations.</typeparam>
+            <typeparam name="TUpdateModel">The type that is sent for update operations.</typeparam>
+            <typeparam name="TKey">The type of ids used by <typeparamref name="TModel" />.</typeparam>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseController`4.#ctor(System.IServiceProvider)">
+            <inheritdoc />
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseController`5">
+            <summary>
+            Abstract base class for all API controllers including the possibility to inject a custom
+            defined specific <typeparamref name="TLogic" />.
+            </summary>
+            <typeparam name="TModel">The type of the model the logic of this controller handles.</typeparam>
+            <typeparam name="TCreateModel">The type that is sent for create operations.</typeparam>
+            <typeparam name="TUpdateModel">The type that is sent for update operations.</typeparam>
+            <typeparam name="TKey">The type of ids used by <typeparamref name="TModel" />.</typeparam>
+            <typeparam name="TLogic">The type of the specific logic or it's specific interface.</typeparam>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseController`5.#ctor(System.IServiceProvider)">
+            <inheritdoc />
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseController`5.Logic">
+            <summary>
+            The injected logic component.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseController">
+            <summary>
+            Abstract base class for all controllers.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseController.#ctor(System.IServiceProvider)">
+            <summary>
+            Default constructor using DI to obtain certain items from the middleware.
+            </summary>
+            <param name="serviceProvider">The configured service provider for resolving DI.</param>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseController.ServiceScope">
+            <summary>
+            The DI scope to use.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseCrudController`5">
+            <summary>
+            Abstract base class for all controllers using default logic injection and providing CRUD operations without any
+            excemptions.
+            </summary>
+            <typeparam name="TModel">The type of the model the logic of this controller handles.</typeparam>
+            <typeparam name="TCreateModel">The type that is sent for create operations.</typeparam>
+            <typeparam name="TUpdateModel">The type that is sent for update operations.</typeparam>
+            <typeparam name="TKey">The type of ids used by <typeparamref name="TModel" />.</typeparam>
+            <typeparam name="TLogic">The type of the specific logic or it's specific interface.</typeparam>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseCrudController`5.#ctor(System.IServiceProvider)">
+            <inheritdoc />
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseCrudController`4">
+            <summary>
+            Abstract base class for all controllers using default logic injection and providing CRUD operations without any
+            excemptions.
+            </summary>
+            <typeparam name="TModel">The type of the model the logic of this controller handles.</typeparam>
+            <typeparam name="TCreateModel">The type that is sent for create operations.</typeparam>
+            <typeparam name="TUpdateModel">The type that is sent for update operations.</typeparam>
+            <typeparam name="TKey">The type of ids used by <typeparamref name="TModel" />.</typeparam>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseCrudController`4.#ctor(System.IServiceProvider)">
+            <inheritdoc />
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseCrudController`4.CreateAsync(`1)">
+            <summary>
+            Creates a new item using the provided <paramref name="data" />.
+            </summary>
+            <param name="data">The data of the new item.</param>
+            <returns>The data of the created item from the backend.</returns>
+            <response code="201">The item was created.</response>
+            <response code="400">The <paramref name="data" /> was invalid.</response>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseCrudController`4.CreateOrUpdateAsync(`2)">
+            <summary>
+            Creates a new item using the provided <paramref name="data" /> or updates it if
+            the id of the item is provided and found in the backend.
+            </summary>
+            <param name="data">The data of the new item.</param>
+            <returns>The data of the created item from the backend.</returns>
+            <response code="200">The item was updated.</response>
+            <response code="201">The item was created.</response>
+            <response code="400">The <paramref name="data" /> was invalid.</response>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseCrudController`4.DeleteAsync(`3)">
+            <summary>
+            Deletes a single item using the provided <paramref name="id" /> to identify it.
+            </summary>
+            <param name="id">The unique id of the item.</param>
+            <response code="200">The item was deleted.</response>
+            <response code="404">The item wasn't found.</response>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseCrudController`4.GetAllAsync">
+            <summary>
+            Retrieves all available items.
+            </summary>
+            <returns>A collection of all available items.</returns>
+            <response code="200">At least one item was retrieved.</response>
+            <response code="404">No items where found.</response>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.BaseCrudController`4.GetByIdAsync(`3)">
+            <summary>
+            Retrieves a single item identified by its unique <paramref name="id" />.
+            </summary>
+            <param name="id">The unique id of the item.</param>
+            <returns>The item.</returns>
+            <response code="200">The item was found.</response>
+            <response code="404">The item wasn't found.</response>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.SimpleBaseController`1">
+            <summary>
+            Abstract base class for all API controllers.
+            </summary>
+            <remarks>
+            This is a convenience type which should make it easier to use a base class in projects where
+            quick results are targeted and issues like over-fetching are not important.
+            </remarks>
+            <typeparam name="TModel">The type of the model the logic of this controller handles.</typeparam>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.SimpleBaseController`1.#ctor(System.IServiceProvider)">
+            <inheritdoc />
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.SimpleBaseController`2">
+            <summary>
+            Abstract base class for all API controllers including the possibility to inject a custom
+            defined specific <typeparamref name="TLogic" />.
+            </summary>
+            <remarks>
+            This is a convenience type which should make it easier to use a base class in projects where
+            quick results are targeted and issues like over-fetching are not important.
+            </remarks>
+            <typeparam name="TModel">The type of the model the logic of this controller handles.</typeparam>
+            <typeparam name="TLogic">The type of the specific logic or it's specific interface.</typeparam>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.SimpleBaseController`2.#ctor(System.IServiceProvider)">
+            <inheritdoc />
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.SimpleBaseController`2.Logic">
+            <summary>
+            The injected logic component.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.SimpleBaseCrudController`2">
+            <summary>
+            Abstract base class for all controllers using default logic injection and providing CRUD operations without any
+            excemptions.
+            </summary>
+            <typeparam name="TModel">The type of the model the logic of this controller handles.</typeparam>
+            <typeparam name="TLogic">The type of the specific logic or it's specific interface.</typeparam>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.SimpleBaseCrudController`2.#ctor(System.IServiceProvider)">
+            <inheritdoc />
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.SimpleBaseCrudController`1">
+            <summary>
+            Abstract base class for all controllers using default logic injection and providing CRUD operations without any
+            excemptions.
+            </summary>
+            <typeparam name="TModel">The type of the model the logic of this controller handles.</typeparam>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.BaseTypes.SimpleBaseCrudController`1.#ctor(System.IServiceProvider)">
+            <inheritdoc />
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Extensions.Configuration.SwaggerConfigurationExtensions">
+            <summary>
+            Provides extension method for the configuration of the application pipeline with swagger.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.Configuration.SwaggerConfigurationExtensions.AddSwagger(Microsoft.Extensions.DependencyInjection.IServiceCollection,devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions,devdeer.Libraries.AspNetCore.RestApi.Models.IdentityOptions,NLog.ILogger,devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions)">
+            <summary>
+            Adds Swagger with Swashbuckle to the service collection.
+            </summary>
+            <param name="services">The DI's service collection to extend.</param>
+            <param name="options">The options for the configuration process.</param>
+            <param name="identityOptions">Optional options for configuring authentication via Microsoft Identity Platform.</param>
+            <param name="logger">Optional logger reference.</param>
+            <param name="configOptions">Optional object containing advanced configuration settings not suitable for app settings.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.Configuration.SwaggerConfigurationExtensions.UseSwaggerWithOptions(Microsoft.AspNetCore.Builder.IApplicationBuilder,Asp.Versioning.ApiExplorer.IApiVersionDescriptionProvider,devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions,devdeer.Libraries.AspNetCore.RestApi.Models.IdentityOptions)">
+            <summary>
+            Is used to pre-configure the applications HTTP pipeline for usage with swagger.
+            </summary>
+            <remarks>
+            Will be most likely used in Startup.Configure.
+            </remarks>
+            <param name="app">The builder for the application pipeline to configure.</param>
+            <param name="apiProvider">Provides API information.</param>
+            <param name="options">The options for the configuration process.</param>
+            <param name="identityOptions">Optional options for configuring authentication via Microsoft Identity Platform.</param>
+            <returns>The configured app builder.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.Configuration.SwaggerConfigurationExtensions.ConfigureSwaggerAuth(devdeer.Libraries.AspNetCore.RestApi.Models.IdentityOptions,NLog.ILogger,devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions)">
+            <summary>
+            Configures automatic swagger generation to also include authorization parameters.
+            </summary>
+            <param name="options">The required options for authentication via Microsoft Identity Platform.</param>
+            <param name="logger">Optional logger reference.</param>
+            <param name="configOptions">Optional object containing advanced configuration settings not suitable for app settings.</param>
+            <returns>The action for the actual configuration.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.Configuration.SwaggerConfigurationExtensions.ConfigureSwaggerGen(devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions,NLog.ILogger,devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions)">
+            <summary>
+            Configures swagger with default values.
+            </summary>
+            <param name="swaggerOptions">The options for swagger from the configuration.</param>
+            <param name="logger">Optional logger reference.</param>
+            <param name="configOptions">Optional object containing advanced configuration settings not suitable for app settings.</param>
+            <returns>The action for the configuration.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.Configuration.SwaggerConfigurationExtensions.ConfigureSwaggerVersioning(Microsoft.Extensions.DependencyInjection.IServiceCollection,devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions,NLog.ILogger)">
+            <summary>
+            Configures automatic swagger generation to include API versions.
+            </summary>
+            <param name="services">The service collection.</param>
+            <param name="swaggerOptions">Options for configuring swagger, including versioning information.</param>
+            <param name="logger">Optional logger reference.</param>
+            <returns>The action for the actual configuration.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.Configuration.SwaggerConfigurationExtensions.CreateInfoForApiVersion(devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions,Asp.Versioning.ApiExplorer.ApiVersionDescription)">
+            <summary>
+            Is called for each detected API version and configures the Open API options for it.
+            </summary>
+            <param name="options">The Swagger options from the app settings.</param>
+            <param name="description">The API description for the current version.</param>
+            <returns>The configured Open API info instance for the version.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.Configuration.SwaggerConfigurationExtensions.JoinXmlComments(System.String,System.String,NLog.ILogger)">
+            <summary>
+            Reads in all XML documentation files in the current folder and merges all <member />-tags
+            into the <paramref name="xmlCommentsFile" /> <members />-section.
+            </summary>
+            <param name="basePath">The directory path in which to search for the files.</param>
+            <param name="xmlCommentsFile">The name of the target file.</param>
+            <param name="logger">Optional logger reference.</param>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions">
+            <summary>
+            Provides extension methods for the startup configuration of an ASP.NET Rest API.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AuthConfigKey">
+            <summary>
+            The key to find Authorization configuration options in the appsettings.json.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AuthenticationGraphConfigKey">
+            <summary>
+            The key to define Graph scopes for authentication in the appsettings.json.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AzureAuthenticationConfigKey">
+            <summary>
+            The key to find authentication configuration options in the appsettings.json.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.CorsConfigKey">
+            <summary>
+            The key to find CORS configuration options in the appsettings.json.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.CorsPolicyName">
+            <summary>
+            Identifier for the default CORS policy.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.DownstreamApiConfigKey">
+            <summary>
+            The key to find downstream API options in the appsettings.json.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.SwaggerConfigKey">
+            <summary>
+            The key to find Swagger configuration options in the appsettings.json.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AddHttpClientDirectMethodFactory">
+            <summary>
+            Retrieves the AddHttpClient overload which takes 1 generic arguments.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AddHttpClientIndirectMethodFactory">
+            <summary>
+            Retrieves the AddHttpClient overload which takes 2 generic arguments.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AddTransientDirectMethodFactory">
+            <summary>
+            Retrieves the AddTransient overload which takes 1 generic arguments.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AddTransientIndirectMethodFactory">
+            <summary>
+            Retrieves the AddTransient overload which takes 2 generic arguments.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.LoggerLazy">
+            <summary>
+            Contains singleton logic to retrieve the generic logger using the callers Startup implementationType.
+            </summary>
+            <remarks>
+            NLog refuses to log if we use DI in this file. It resolves the correct ILogger{Startup}
+            but no log message are
+            appearing. This is why we use this factory logic here.
+            </remarks>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.ConfigureDefaults(Microsoft.AspNetCore.Builder.IApplicationBuilder,devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions)">
+            <summary>
+            Is used to pre-configure the <paramref name="app" /> builder in a standardized way.
+            </summary>
+            <remarks>
+            Will be most likely used in Startup.Configure.
+            </remarks>
+            <param name="app">The app builder.</param>
+            <param name="options">Optional object containing advanced configuration settings not suitable for app settings.</param>
+            <remarks>If you wish to inject custom middlewares, be sure to also register them in the DI!</remarks>
+            <returns>The pre-configured app builder.</returns>
+            <exception cref="T:System.ApplicationException">Is thrown if ASPNETCORE_ENVIRONMENT variable is not defined in environment.</exception>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions)">
+            <summary>
+            Is used to pre-configure the <paramref name="services" /> collection in a standardized way.
+            </summary>
+            <remarks>
+            Will be most likely used in Startup.ConfigureServices.
+            </remarks>
+            <param name="services">The collection of services to be appended.</param>
+            <param name="configuration">The configuration for the application loaded on startup.</param>
+            <param name="options">Optional object containing advanced configuration settings not suitable for app settings.</param>
+            <returns>The service collection containing the configured services.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AddCors(Microsoft.Extensions.DependencyInjection.IServiceCollection,devdeer.Libraries.AspNetCore.RestApi.Models.CorsOptions)">
+            <summary>
+            Configuration logic for ASP.NET Core CORS.
+            </summary>
+            <param name="services">The collection of services to be appended.</param>
+            <param name="options">The options for the configuration process.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AutoMapModels(Microsoft.Extensions.DependencyInjection.IServiceCollection,devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions)">
+            <summary>
+            Performs the AutoMapper default type registration for <see cref="T:devdeer.Libraries.Abstractions.Interfaces.IModel`1" /> and <see cref="T:devdeer.Libraries.Abstractions.Interfaces.IEntity`1" />.
+            </summary>
+            <param name="services">The service collection.</param>
+            <param name="options">The options passed in from the caller.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AutoRegisterServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions)">
+            <summary>
+            Is called during the service configuration to automatically register all types which are repositories or logics.
+            </summary>
+            <remarks>
+            <para>
+            This takes into consideration that some implementations implement multiple interfaces.
+            </para>
+            </remarks>
+            <param name="services">The service collection.</param>
+            <param name="options">The options.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.AutoRegisterType(Microsoft.Extensions.DependencyInjection.IServiceCollection,devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions,System.Type,System.Type)">
+            <summary>
+            Takes care of performing all registrations for the specified <paramref name="implementationType" />
+            in the <paramref name="services" /> generically.
+            </summary>
+            <remarks>
+            This will auto-detect if HttpClient is needed in the constructor and call the AddHttpClient method
+            on the <paramref name="services" />.
+            </remarks>
+            <param name="services">The service collection.</param>
+            <param name="options">The options</param>
+            <param name="baseType">The base type (interface or base class).</param>
+            <param name="implementationType">The type which contains the actual implementation.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.HandleDevelopment(devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions,Microsoft.Extensions.Hosting.IHostEnvironment)">
+            <summary>
+            Executes logic only if the environment is set to Development.
+            </summary>
+            <param name="options">The current options.</param>
+            <param name="env">The handler for access environment information.</param>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.RegisteredHttpClients">
+            <summary>
+            The list of already registered HTTP clients to avoid double registration.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.Logger">
+            <summary>
+            Retrieves the lazy initialized logger to use.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Extensions.HostBuilderExtensions">
+            <summary>
+            Provides extension methods for the type <see cref="T:Microsoft.Extensions.Hosting.IHostBuilder" />.
+            </summary>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Extensions.HostBuilderExtensions.ConfigKeyVaultConfigKey">
+            <summary>
+            The key to find Authorization configuration options in the appsettings.json.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.HostBuilderExtensions.ConfigureDefaults(Microsoft.AspNetCore.Builder.WebApplicationBuilder,System.Boolean)">
+            <summary>
+            If called performs default configuration for the provided <paramref name="builder" />.
+            </summary>
+            <remarks>
+            Calls <see cref="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.HostBuilderExtensions.ConfigureLogging(Microsoft.AspNetCore.Builder.WebApplicationBuilder)" /> and then <see cref="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.HostBuilderExtensions.UseKeyVault(Microsoft.AspNetCore.Builder.WebApplicationBuilder,System.Boolean)" />.
+            </remarks>
+            <param name="builder">The web app builder.</param>
+            <param name="keyVaultOnAllStages">If set to <c>true</c> dev stage will use key vault too.</param>
+            <returns>The configured <paramref name="builder" />.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.HostBuilderExtensions.ConfigureLogging(Microsoft.Extensions.Hosting.IHostBuilder)">
+            <summary>
+            Adds NLog logging to the provided <paramref name="builder" />.
+            </summary>
+            <param name="builder">The host builder to configure.</param>
+            <returns>The configured host builder.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.HostBuilderExtensions.ConfigureLogging(Microsoft.AspNetCore.Builder.WebApplicationBuilder)">
+            <summary>
+            Adds NLog logging to the provided &lt;paramref name="builder" /&gt;.
+            </summary>
+            <remarks>
+            Clears all other providers and requires a <c>nlog.config</c> file in the startup directory.
+            </remarks>
+            <param name="builder">The web app builder.</param>
+            <returns>The configured <paramref name="builder" />.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.HostBuilderExtensions.UseKeyVault(Microsoft.AspNetCore.Builder.WebApplicationBuilder,System.Boolean)">
+            <summary>
+            Tries to add Key Vault to the configuration system of the
+            <paramref name="builder" />.
+            </summary>
+            <remarks>
+            The key "ConfigKeyVault:VaultName" needs to exist in your app config and the machine needs to have access to the vault.
+            </remarks>
+            <param name="builder">The web app builder.</param>
+            <param name="allStages">If set to <c>true</c> dev stage will use key vault too.</param>
+            <returns>The configured <paramref name="builder" />.</returns>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Filters.OptionalRouteParameterOperationFilter">
+            <summary>
+            Swashbucke filter for optional route parameters.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Filters.OptionalRouteParameterOperationFilter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Filters.RequireNonNullablePropertiesSchemaFilter">
+            <summary>
+            Swashbuckle filter to ensure that non-nullable properties are marked as required in swagger.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Filters.RequireNonNullablePropertiesSchemaFilter.Apply(Microsoft.OpenApi.Models.OpenApiSchema,Swashbuckle.AspNetCore.SwaggerGen.SchemaFilterContext)">
+            <summary>
+            Add to model.Required all properties where Nullable is false.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Filters.SwaggerOperationIdFilter">
+            <summary>
+            Operation filter to ensure that if a controller method is decorated with <see cref="T:devdeer.Libraries.AspNetCore.RestApi.Attributes.SwaggerOperationAttribute" /> the
+            operation id is used in swagger.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Filters.SwaggerOperationIdFilter.Apply(Microsoft.OpenApi.Models.OpenApiOperation,Swashbuckle.AspNetCore.SwaggerGen.OperationFilterContext)">
+            <inheritdoc />
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Helpers.AdGroupClaimAuthorizationHandler">
+            <summary>
+            A handler for using <see cref="T:devdeer.Libraries.AspNetCore.RestApi.Helpers.AdGroupClaimAuthorizationHandler" /> for authorization based on group claims
+            present in the current token.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Helpers.AdGroupClaimAuthorizationHandler.HandleRequirementAsync(Microsoft.AspNetCore.Authorization.AuthorizationHandlerContext,devdeer.Libraries.AspNetCore.RestApi.Helpers.AdGroupClaimAuthorizationRequirement)">
+            <inheritdoc />
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Helpers.AdGroupClaimAuthorizationRequirement">
+            <summary>
+            Authorization requirement based on a list of directory group ids which are checked.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Helpers.AdGroupClaimAuthorizationRequirement.#ctor(System.String[])">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="groupIds">
+            The list of directory groups of which the claim must have at least 1 so that this requirement is
+            met.
+            </param>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Helpers.AdGroupClaimAuthorizationRequirement.DirectoryGroupIds">
+            <summary>
+            The list of directory groups of which the claim must have at least 1 so that this requirement is met.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Helpers.BaseApplicationInsightsTelemetryProcessor">
+            <summary>
+            Base class for telemetry processors.
+            </summary>
+            <remarks>
+            This implementation will perform the following tasks:
+            <list type="bullet">
+            <item>Removing 404 and 409 errors for Azure Blob storage.</item>
+            </list>
+            </remarks>
+        </member>
+        <member name="F:devdeer.Libraries.AspNetCore.RestApi.Helpers.BaseApplicationInsightsTelemetryProcessor.IgnoreRules">
+            <summary>
+            Defines the default ignore rules for this implementation.
+            </summary>
+            <remarks>
+            The key is the string for which to search on the type and the value is an array of result codes to
+            filter for. If the array is empty it will ignore every event type.
+            </remarks>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Helpers.BaseApplicationInsightsTelemetryProcessor.#ctor(Microsoft.ApplicationInsights.Extensibility.ITelemetryProcessor)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="next">The next processor in the pipeline.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Helpers.BaseApplicationInsightsTelemetryProcessor.Process(Microsoft.ApplicationInsights.Channel.ITelemetry)">
+            <inheritdoc />
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Helpers.BaseApplicationInsightsTelemetryProcessor.CheckIgnoreRules(Microsoft.ApplicationInsights.DataContracts.DependencyTelemetry)">
+            <summary>
+            The default implementation of the <see cref="P:devdeer.Libraries.AspNetCore.RestApi.Helpers.BaseApplicationInsightsTelemetryProcessor.IgnoreCondition" /> expression.
+            </summary>
+            <param name="dep">The dependency telemtry to check.</param>
+            <returns><c>true</c> if the telemetry should be ignored otherwise <c>false</c>.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Helpers.BaseApplicationInsightsTelemetryProcessor.ItemShouldBeIgnored(Microsoft.ApplicationInsights.Channel.ITelemetry)">
+            <summary>
+            Indicates whether the <paramref name="item" /> should be ignored in logging.
+            </summary>
+            <param name="item">The item to inspect.</param>
+            <returns><c>true</c> if it should be ignored otherwise <c>false</c>.</returns>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Helpers.BaseApplicationInsightsTelemetryProcessor.IgnoreCondition">
+            <summary>
+            Overridable condition which is evaluated each time a telemetry item is checked.
+            </summary>
+            <remarks>
+            If the result of the expression is <c>true</c> the item won't be sent to AI.
+            </remarks>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Helpers.BaseApplicationInsightsTelemetryProcessor.Next">
+            <summary>
+            The next processor in the pipeline.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Helpers.BasicHealthCheck">
+            <summary>
+            Basic implementation of an ASP.NET health check.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Helpers.BasicHealthCheck.#ctor(Microsoft.Extensions.Configuration.IConfiguration)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="configuration">The configuration handler.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Helpers.BasicHealthCheck.CheckHealthAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <inheritdoc />
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Helpers.BasicHealthCheck.PerformChecksAsync(Microsoft.Extensions.Diagnostics.HealthChecks.HealthCheckContext,System.Threading.CancellationToken)">
+            <summary>
+            Can be overridden to perform the actual health checks.
+            </summary>
+            <remarks>
+            This implementation returns Healthy by default.
+            </remarks>
+            <param name="context">The context for the health check.</param>
+            <param name="cancellationToken">An optional cancellation token.</param>
+            <returns>The health check result to return on request.</returns>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Helpers.BasicHealthCheck.Configuration">
+            <summary>
+            The configuration handler.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Middleware.ApplicationInsightsRequestResponseMiddleware">
+            <summary>
+            Middleware to log request bodies in Application Insights.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Middleware.ApplicationInsightsRequestResponseMiddleware.#ctor(Microsoft.ApplicationInsights.TelemetryClient)">
+            <summary>
+            Default constructor.
+            </summary>
+            <param name="telemetryClient">The AI telemtry client to use.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Middleware.ApplicationInsightsRequestResponseMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Http.RequestDelegate)">
+            <inheritdoc />
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Middleware.ApplicationInsightsRequestResponseMiddleware.ReadBodyStreamAsync(System.IO.Stream)">
+            <summary>
+            Reads the content of a stream and positions it to 0 afterards.
+            </summary>
+            <param name="bodyStream">The stream to read out.</param>
+            <returns>The content of the stream.</returns>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Middleware.ApplicationInsightsRequestResponseMiddleware.TelemetryClient">
+            <summary>
+            The injected AI telemetry client.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware">
+            <summary>
+            Middleware to handle all uncaught exceptions that occur further down in the request pipeline.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware.#ctor(devdeer.Libraries.AspNetCore.RestApi.Models.ExceptionOptions,Microsoft.Extensions.Logging.ILogger{devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware})">
+            <summary>
+            Instantiates the middleware with it's configuration options.
+            </summary>
+            <param name="options">The exception options.</param>
+            <param name="logger">The logger configured in the DI.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware.InvokeAsync(Microsoft.AspNetCore.Http.HttpContext,Microsoft.AspNetCore.Http.RequestDelegate)">
+            <inheritdoc />
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware.HandleExceptionInternal(System.Exception,Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Allows to implement specific handling of exceptions and to build the exception message for the HTTP response.
+            </summary>
+            <remarks>
+            No logging is required here because it is already done by the caller!
+            </remarks>
+            <param name="exception">The exception to handle.</param>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext" /> in which the exception occured.</param>
+            <returns>The message for the response stream.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware.WriteStatusCode(System.Exception,Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Writes a status code depending on the <paramref name="exception" /> to the response of the <paramref name="context" />.
+            </summary>
+            <remarks>
+            This purpose is to write the status code via `context.Response.StatusCode = x` depending on
+            the given type of <paramref name="exception" />.
+            </remarks>
+            <param name="exception">The exception that occured somewhere in the pipeline.</param>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext" /> in which the exception occured.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware.GetStatusCodeForRequestException(System.Net.Http.HttpRequestException)">
+            <summary>
+            Tries to retrieve an HTTP status code out of an <paramref name="requestException" /> by searching in its message text.
+            </summary>
+            <param name="requestException">The exception which should contain a HTTP status code in its message text.</param>
+            <returns>The HTTP status code derived from the message text.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware.HandleException(System.Exception,Microsoft.AspNetCore.Http.HttpContext)">
+            <summary>
+            Handles the exception based on it's type.
+            </summary>
+            <param name="exception">The exception to handle.</param>
+            <param name="context">The <see cref="T:Microsoft.AspNetCore.Http.HttpContext" /> in which the exception occured.</param>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware.LogExceptionTree(System.Exception,System.String)">
+            <summary>
+            Recursively writes the <paramref name="exception" /> and all inner exceptions to the logger.
+            </summary>
+            <param name="exception">The exception to log.</param>
+            <param name="message">The message to add to the log entry.</param>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware.Logger">
+            <summary>
+            The injected logger.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware.Options">
+            <summary>
+            The exception options.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions">
+            <summary>
+            Allows to define advanced options for the <see cref="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.ConfigureServices(Microsoft.Extensions.DependencyInjection.IServiceCollection,Microsoft.Extensions.Configuration.IConfiguration,devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions)" /> and
+            <see cref="M:devdeer.Libraries.AspNetCore.RestApi.Extensions.ConfigurationExtensions.ConfigureDefaults(Microsoft.AspNetCore.Builder.IApplicationBuilder,devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions)" /> method."/>
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.#ctor">
+            <summary>
+            Default constructor.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.JsonSerializerOptions">
+            <summary>
+            The default JSON serializer options to use.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.AutoRegisterDefaultServices">
+            <summary>
+            Indicates if types inheriting from <see cref="T:devdeer.Libraries.Abstractions.Interfaces.ILogic`4" /> and
+            <see cref="T:devdeer.Libraries.Abstractions.Interfaces.IRepository`4" /> should
+            automatically be added during service configuration.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.AutoRegisterModelMapping">
+            <summary>
+            Indicates if the logic should automatically map between <see cref="T:devdeer.Libraries.Abstractions.Interfaces.IModel`1" /> and <see cref="T:devdeer.Libraries.Abstractions.Interfaces.IEntity" />
+            using AutoMapper.
+            </summary>
+            <remarks>
+            Be aware that mappings will be added in reverse order. See <see cref="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeModelMapping" />,
+            <see cref="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.AfterModelMapping" />,
+            <see cref="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeModelMapping" /> and <see cref="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeSingleMapping" />.
+            </remarks>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.EnforceHttpsRedirection">
+            <summary>
+            Indicates if the configuration should switch on HTTPS redirects.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.ExceptionMiddlewareType">
+            <summary>
+            Optional type of custom exception middleware.
+            </summary>
+            <remarks>
+            <para>Defaults to <see cref="T:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware" />.</para>
+            <para>It is recommended to pass in a type which inherits from <see cref="T:devdeer.Libraries.AspNetCore.RestApi.Middleware.ExceptionHandlingMiddleware" />.</para>
+            </remarks>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.ReturnExceptionMessages">
+            <summary>
+            Indicates if the exception middleware should return exception messages in error responses.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.SkipAutomaticHealthCheckConfig">
+            <summary>
+            If set to <c>true</c> the configuration will not apply Health-Check-service-injection.
+            </summary>
+            <remarks>
+            Be aware that you have to register your own health checks in case you set this to <c>true</c>.
+            </remarks>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.SkipSwaggerHealthChecks">
+            <summary>
+            If set to <c>true</c> no health checks for swagger documents will be generated.
+            </summary>
+            <remarks>
+            This is only checked if <see cref="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.SkipAutomaticHealthCheckConfig"/> is <c>false</c>.
+            </remarks>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeAutomaticServiceActivation">
+            <summary>
+            Allows definition of activation logic after exception middleware and before any other activation.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.AfterAutomaticServiceActivation">
+            <summary>
+            Allows definition of activation logic after all other middlewares are activated.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeAutoTypeRegistration">
+            <summary>
+            Is called before a type is getting auto-registered and allows the caller to return <c>false</c> if a certain type
+            should be skipped.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeAuthorizationServiceActivation">
+            <summary>
+            Is called before the Authorization is added to the services and passes in the auth options.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.AfterAuthorizationServiceActivation">
+            <summary>
+            Is called after the Authorization is added to the services and passes in the auth options.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeRoutingActivation">
+            <summary>
+            Allows definition of activation logic between HTTPS and before Routing.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeAuthenticationActivation">
+            <summary>
+            Allows definition of activation logic between Routing and Authentication.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeAuthorizationActivation">
+            <summary>
+            Allows definition of activation logic between Authentication and Authorization.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeEndpointsActivation">
+            <summary>
+            Allows definition of activation logic between Authorization and Endpoints.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.AfterDefaultServicesConfigured">
+            <summary>
+            Allows definition of custom injections to the service collection just before it gets built.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeModelMapping">
+            <summary>
+            Allows definition of custom logic performed before AutoMapper auto configuration.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.AfterModelMapping">
+            <summary>
+            Allows definition of custom logic performed after AutoMapper auto configuration.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.EntityToModelResolver">
+            <summary>
+            The logic to retrieve the model type from the entity type.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.AllowEmptyInputInBodyModelBinding">
+            <summary>
+            Whether to allow null as value of HTTP bodies or not.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.DisableApplicationInsightsTelemetryTracingInDebug">
+            <summary>
+            Indicates if telemetry tracing should be disabled.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.BeforeSingleMapping">
+            <summary>
+            Is called by the configuration extension before a single type mapping happens. If this returns <c>false</c> the mapping
+            will not be performed.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.AfterSingleMapping">
+            <summary>
+            Is called by the configuration extension after a single type mapping happened. It allows to
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.AfterSwaggerFiltersApplied">
+            <summary>
+            Is called after the default Swagger operation filters where condigured.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.CustomSwaggerAuthHandler">
+            <summary>
+            When defined this means that the caller wants to perform Swagger Auth completely alone.
+            </summary>
+            <remarks>
+            The default logic will not be executed if this is defined!
+            </remarks>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ConfigurationOptions.SkipSwaggerCommentsMerge">
+            <summary>
+            If set to <c>true</c> the logic will not try to merge XML document files.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Models.CorsOptions">
+            <summary>
+            Defines options for the configuration of CORS.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.CorsOptions.AllowedHeaders">
+            <summary>
+            The list of allowed headers or <c>null</c> if no configuration should happen on them.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.CorsOptions.AllowedMethods">
+            <summary>
+            The list of allowed HTTP methods or <c>null</c> if no configuration should happen on them.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.CorsOptions.AllowedOrigins">
+            <summary>
+            The list of allowed origin or <c>null</c> if no configuration should happen on them.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.CorsOptions.EnableCors">
+            <summary>
+            Flag to indicate whether to enable the CORS feature.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.CorsOptions.AllowCredentials">
+            <summary>
+            Flag to indicate whether to allow credentials or not.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Models.ExceptionOptions">
+            <summary>
+            Holds options relevevant for exceptions.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ExceptionOptions.ReturnExceptionMessages">
+            <summary>
+            Indicates if the exception middleware should return exception messages in error responses.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Models.HealthChecks.ComponentHealthCheck">
+            <summary>
+            POCO for the health check results of a single component in an application.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.HealthChecks.ComponentHealthCheck.Component">
+            <summary>
+            The name of the component that is being checked on.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.HealthChecks.ComponentHealthCheck.Description">
+            <summary>
+            Optional description of the current health of the component.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.HealthChecks.ComponentHealthCheck.Status">
+            <summary>
+            The components health status.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Models.HealthChecks.HealthCheckOptionsFactory">
+            <summary>
+            Factory for options for configuring application health checks.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.HealthChecks.HealthCheckOptionsFactory.DefaultOptions">
+            <summary>
+            Default options for application health checks to return an aggregated report.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Models.HealthChecks.HealthCheckReport">
+            <summary>
+            POCO for a report of an application's health check.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.HealthChecks.HealthCheckReport.ComponentHealthChecks">
+            <summary>
+            Individual health checks of the components and dependencies of an application.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.HealthChecks.HealthCheckReport.Duration">
+            <summary>
+            The duration the health check took.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.HealthChecks.HealthCheckReport.OverallStatus">
+            <summary>
+            The overall status of the application.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Models.IdentityOptions">
+            <summary>
+            Specialized identity options which are handling audiences and scopes differently.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.IdentityOptions.Scopes">
+            <summary>
+            The array of scopes required by this app.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Models.ServiceConfigurationOptions">
+            <summary>
+            Is passed to the service configuration (aka DI) to control the internal options.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ServiceConfigurationOptions.CorsOptions">
+            <summary>
+            The options used for CORS or <c>null</c> if CORS shouldn't be configured.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ServiceConfigurationOptions.MicrosoftIdentityOptions">
+            <summary>
+            Options for configuring authentication via Microsoft Identity Platform.
+            </summary>
+            <remarks>The logic will configure authentication if this is not <c>null</c>.</remarks>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.ServiceConfigurationOptions.SwaggerOptions">
+            <summary>
+            The options for Swagger DI or <c>null</c> if Swagger shouldn't be configured.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion">
+            <summary>
+            Holds information about an API version in the form MAJOR.MINOR.
+            </summary>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion.CompareTo(System.Object)">
+            <inheritdoc />
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion.CompareTo(devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion)">
+            <inheritdoc />
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion.Equals(devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion)">
+            <inheritdoc />
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion.GetHashCode">
+            <inheritdoc />
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion.ToApiVersion">
+            <summary>
+            Converts this instance into an <see cref="T:Asp.Versioning.ApiVersion" />.
+            </summary>
+            <returns>The API version from the framework.</returns>
+        </member>
+        <member name="M:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion.ToString">
+            <inheritdoc />
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion.Major">
+            <summary>
+            The major version number.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerApiVersion.Minor">
+            <summary>
+            The minor version number.
+            </summary>
+        </member>
+        <member name="T:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions">
+            <summary>
+            Defines the options for Swashbuckle Swagger configuration.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions.ApiDescription">
+            <summary>
+            A short text describing the purpose of the API.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions.ApiDisplayName">
+            <summary>
+            The display name of the API in Swagger.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions.Contact">
+            <summary>
+            The Open API contact information.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions.DeprecatedApiMessage">
+            <summary>
+            Defines the content which should be displayed on deprecated versions.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions.Enable">
+            <summary>
+            Flag to indicate whether swagger should be used.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions.SupportedVersions">
+            <summary>
+            An array of supported API versions.
+            </summary>
+        </member>
+        <member name="P:devdeer.Libraries.AspNetCore.RestApi.Models.SwaggerOptions.MarkNonNullablesAsRequired">
+            <summary>
+            Indicates if "required" should be added in Swagger for all non-nullable properties using the
+            <see cref="T:devdeer.Libraries.AspNetCore.RestApi.Filters.RequireNonNullablePropertiesSchemaFilter" />.
+            </summary>
+        </member>
+    </members>
+</doc>

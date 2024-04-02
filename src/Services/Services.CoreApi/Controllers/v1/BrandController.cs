@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using System.Threading.Tasks;
+
     using Asp.Versioning;
 
     using Libraries.Abstractions.Models;
@@ -29,11 +30,13 @@
 
         #endregion
 
+        #region methods
+
         /// <summary>
-        /// 
+        /// Retrieves items filtered and sorted by the given <paramref name="request"/>.
         /// </summary>
-        /// <param name="request"></param>
-        /// <returns></returns>
+        /// <param name="request">The request containing the options for the desired result.</param>
+        /// <returns>The information about the requested page including the data.</returns>
         [HttpPost("Paged")]
         public async ValueTask<ActionResult<PagedResponse<BrandModel>>> GetPagedAsync(PagedRequest request)
         {
@@ -41,5 +44,6 @@
             return Ok(result);
         }
 
+        #endregion
     }
 }

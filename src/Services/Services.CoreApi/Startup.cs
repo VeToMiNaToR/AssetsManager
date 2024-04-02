@@ -5,12 +5,12 @@ namespace devdeer.AssetsManager.Services.CoreApi
 
     using Data.Entities;
 
-    using devdeer.Libraries.AspNetCore.RestApi.Extensions;
-    using devdeer.Libraries.AspNetCore.RestApi.Models;
-    using devdeer.Libraries.Repository.EntityFrameworkCore.Extensions;
-    using devdeer.Libraries.Repository.EntityFrameworkCore.Models;
-
     using Helper;
+
+    using Libraries.AspNetCore.RestApi.Extensions;
+    using Libraries.AspNetCore.RestApi.Models;
+    using Libraries.Repository.EntityFrameworkCore.Extensions;
+    using Libraries.Repository.EntityFrameworkCore.Models;
 
     using Microsoft.AspNetCore.Builder;
     using Microsoft.Extensions.Configuration;
@@ -27,7 +27,8 @@ namespace devdeer.AssetsManager.Services.CoreApi
         {
             SkipAutomaticHealthCheckConfig = false,
             AutoRegisterDefaultServices = true,
-            AutoRegisterModelMapping = true
+            AutoRegisterModelMapping = true,
+            SkipSwaggerCommentsMerge = false
         };
 
         #endregion

@@ -1,19 +1,16 @@
-﻿using Azure.Core;
-using devdeer.AssetsManager.Data.Entities.Entities;
-using devdeer.AssetsManager.Logic.Common;
-using devdeer.Libraries.Abstractions.BaseTypes;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace devdeer.AssetsManager.Data.Entities
+﻿namespace devdeer.AssetsManager.Data.Entities
 {
+    using System;
+    using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
+    using System.Linq;
+
+    using Entities;
+
+    using Libraries.Abstractions.BaseTypes;
+
+    using Logic.Common;
+
     /// <summary>
     /// Represents an asset in the datastore.
     /// </summary>
@@ -21,6 +18,7 @@ namespace devdeer.AssetsManager.Data.Entities
     public class Asset : BaseEntity
     {
         #region properties
+
         /// <summary>
         /// Represents the foreign key to brand entity.
         /// </summary>
@@ -30,7 +28,7 @@ namespace devdeer.AssetsManager.Data.Entities
         /// <summary>
         /// Represents the data of the related brand.
         /// </summary>
-        public virtual Brand Brand { get; set; } = default!; 
+        public virtual Brand Brand { get; set; } = default!;
 
         /// <summary>
         /// Represents the foreign key to category entity.
@@ -52,7 +50,7 @@ namespace devdeer.AssetsManager.Data.Entities
         /// <summary>
         /// Represents the data of the related location.
         /// </summary>
-        public virtual Location Location { get; set; } = default!; 
+        public virtual Location Location { get; set; } = default!;
 
         /// <summary>
         /// Represents the foreign key to workplace entity.
@@ -62,7 +60,7 @@ namespace devdeer.AssetsManager.Data.Entities
         /// <summary>
         /// Represents the data of the related workplace.
         /// </summary>
-        public virtual Workplace Workplace { get; set; } = default!; 
+        public virtual Workplace Workplace { get; set; } = default!;
 
         /// <summary>
         /// Represents the foreign key to worker entity.
@@ -72,7 +70,7 @@ namespace devdeer.AssetsManager.Data.Entities
         /// <summary>
         /// Represents the data of the related worker.
         /// </summary>
-        public virtual Worker Worker { get; set; } = default!; 
+        public virtual Worker Worker { get; set; } = default!;
 
         /// <summary>
         /// Represents a unique assetkey of an asset.
@@ -134,6 +132,7 @@ namespace devdeer.AssetsManager.Data.Entities
         /// </summary>
         [StringLength(500)]
         public string SecondaryImagePath { get; set; } = default!;
+
         #endregion
     }
 }

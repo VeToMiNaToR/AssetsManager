@@ -3,7 +3,7 @@ namespace devdeer.AssetsManager.Services.CoreApi
     using System;
     using System.Linq;
 
-    using devdeer.Libraries.AspNetCore.RestApi.Extensions;
+    using Libraries.AspNetCore.RestApi.Extensions;
 
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.Extensions.Hosting;

@@ -7,7 +7,6 @@
     using Interfaces.Repositories;
 
     using Libraries.Abstractions.BaseTypes;
-    using Libraries.Abstractions.Interfaces;
 
     using Models;
 
