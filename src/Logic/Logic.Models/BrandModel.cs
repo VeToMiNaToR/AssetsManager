@@ -12,6 +12,9 @@
     {
         #region properties
 
+        /// <summary>
+        /// The label of the brand.
+        /// </summary>
         public string Label { get; set; } = default!;
 
         #endregion
