@@ -9,4 +9,7 @@
     <ItemGroup>
         <PackageReference Include="devdeer.Libraries.Abstractions" />
     </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Logic.Common\Logic.Common.csproj" />
+    </ItemGroup>
 </Project>
