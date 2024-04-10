@@ -4,17 +4,18 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="AutoMapper" Version="13.0.1" />
-    <PackageVersion Include="devdeer.Libraries.Abstractions" Version="12.0.1" />
-    <PackageVersion Include="devdeer.Libraries.AspNetCore.RestApi" Version="14.0.1" />
-    <PackageVersion Include="devdeer.Libraries.Repository.EntityFrameworkCore" Version="14.0.2" />
-    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.2">
+    <PackageVersion Include="devdeer.Libraries.Abstractions" Version="12.0.3" />
+    <PackageVersion Include="devdeer.Libraries.AspNetCore.RestApi" Version="14.3.0" />
+    <PackageVersion Include="devdeer.Libraries.Repository.EntityFrameworkCore" Version="14.0.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.2" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.2" />
-    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.2" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.3" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="8.0.3" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Diagnostics.HealthChecks.EntityFrameworkCore" Version="8.0.3" />
+    <PackageVersion Include="MudBlazor" Version="6.19.1" />
   </ItemGroup>
 </Project>

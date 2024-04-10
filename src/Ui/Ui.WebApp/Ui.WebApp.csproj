@@ -6,4 +6,10 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
+    <ItemGroup>
+      <PackageReference Include="MudBlazor" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\..\Logic\Logic.Core\Logic.Core.csproj" />
+    </ItemGroup>
 </Project>

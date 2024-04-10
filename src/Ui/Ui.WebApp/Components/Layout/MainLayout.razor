@@ -1,23 +1,66 @@
-﻿@inherits LayoutComponentBase
+﻿@using static MudBlazor.CategoryTypes
+@inherits LayoutComponentBase
 
-<div class="page">
-    <div class="sidebar">
+<MudThemeProvider @bind-IsDarkMode="@IsDarkMode" Theme="_theme" />
+<MudDialogProvider />
+<MudSnackbarProvider />
+
+<MudLayout>
+    <MudAppBar Elevation="1" Class="d-flex">
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick=@DrawerToggle />
+        <MudText Typo="Typo.h6">AssetsManager</MudText>
+        <h2 class="flex-grow-1"></h2>
+        <MudSwitch @bind-checked="@IsDarkMode" Color="Color.Primary" Class="ma-4" T="bool" ThumbIcon="@(IsDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" />
+        <Login />
+    </MudAppBar>
+    <MudDrawer @bind-Open="@IsDrawerOpen" ClipMode="DrawerClipMode.Always" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="false">
         <NavMenu />
-    </div>
-
-    <main>
-        <div class="top-row px-4">
-            <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
-        </div>
-
-        <article class="content px-4">
+    </MudDrawer>
+    <MudMainContent>
+        <div class="pa-10">
             @Body
-        </article>
-    </main>
-</div>
+        </div>
+    </MudMainContent>
+</MudLayout>
 
-<div id="blazor-error-ui">
-    An unhandled error has occurred.
-    <a href="" class="reload">Reload</a>
-    <a class="dismiss">🗙</a>
-</div>
+
+@code {
+    private static bool _drawerOpen = true;
+    private static bool _isDarkMode;
+    private readonly MudTheme _theme = new()
+    {
+        Typography = new Typography()
+        {
+            Default = new Default()
+            {
+                FontFamily = new[] { "Helvetica", "Arial", "sans-serif" }
+            }
+        }
+    };
+
+    /// <summary>
+    /// Callback to toggle the state of the menu drawer.
+    /// </summary>
+    void DrawerToggle()
+    {
+        IsDrawerOpen = !IsDrawerOpen;
+    }
+
+    /// <summary>
+    /// Indicates if dark mode is currently used in the app.
+    /// </summary>
+    private bool IsDarkMode
+    {
+        get => _isDarkMode;
+        set => _isDarkMode = value;
+    }
+
+    /// <summary>
+    /// Indicates if the menu drawer is open currently.
+    /// </summary>
+    private bool IsDrawerOpen
+    {
+        get => _drawerOpen;
+        set => _drawerOpen = value;
+    }
+}

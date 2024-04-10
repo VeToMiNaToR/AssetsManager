@@ -3,6 +3,7 @@ using devdeer.AssetsManager.Data.Entities;
 using devdeer.AssetsManager.Logic.Interfaces.Repositories;
 using devdeer.AssetsManager.Logic.Models;
 using devdeer.AssetsManager.Repositories.Core.Base;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -44,6 +45,15 @@ namespace devdeer.AssetsManager.Repositories.Core
             e.ModelName.ToLower().Contains(filterText) ||
             e.PrimaryImagePath.ToLower().Contains(filterText) ||
             e.SecondaryImagePath.ToLower().Contains(filterText);
+        }
+        protected override void HandleEntityBeforeCreate(Asset entity)
+        {   
+            entity.AssetKey =
+            base.HandleEntityBeforeCreate(entity);
+        }
+        protected override void HandleEntityBeforeUpdate(Asset entity, Asset convertedEntity, AssetModel model)
+        {
+            base.HandleEntityBeforeUpdate(entity, convertedEntity, model);
         }
         #endregion
     }
