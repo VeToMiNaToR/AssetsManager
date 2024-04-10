@@ -2,6 +2,9 @@ namespace devdeer.AssetsManager.Services.CoreApi
 {
     using System;
     using System.Linq;
+    using System.Text.Json;
+    using System.Text.Json.Serialization;
+    using System.Text.Json.Serialization.Metadata;
 
     using Data.Entities;
 
@@ -28,7 +31,13 @@ namespace devdeer.AssetsManager.Services.CoreApi
             SkipAutomaticHealthCheckConfig = false,
             AutoRegisterDefaultServices = true,
             AutoRegisterModelMapping = true,
-            SkipSwaggerCommentsMerge = false
+            SkipSwaggerCommentsMerge = false,
+            JsonSerializerOptions = new JsonSerializerOptions()
+            {
+                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+                Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) },
+                TypeInfoResolver = new DefaultJsonTypeInfoResolver()
+            }
         };
 
         #endregion
@@ -67,6 +76,10 @@ namespace devdeer.AssetsManager.Services.CoreApi
         {
             // perform DEVDEER-lib-init
             services.ConfigureServices(Configuration, _options);
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+            });
             services.ConfigureSqlServer<AssetsManagerContext>(
                 Configuration,
                 new SqlServerConfigurationOptions

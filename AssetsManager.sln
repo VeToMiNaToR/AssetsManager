@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		..\.gitignore = ..\.gitignore
 		..\azure-pipelines.yml = ..\azure-pipelines.yml
+		Directory.Packages.props = Directory.Packages.props
 		..\global.json = ..\global.json
 		..\README.md = ..\README.md
 	EndProjectSection
@@ -39,7 +40,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logic.Common", "src\Logic\L
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{93FB8DFE-A23D-4A5B-BB2A-777D5EA5D8FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.Logic.Core", "tests\Tests.Logic.Core\Tests.Logic.Core.csproj", "{551B121A-EB02-4A07-B2ED-9A222F97CA3A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests.Logic.Core", "tests\Tests.Logic.Core\Tests.Logic.Core.csproj", "{551B121A-EB02-4A07-B2ED-9A222F97CA3A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

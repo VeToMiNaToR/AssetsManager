@@ -1,19 +1,26 @@
-﻿using AutoMapper;
-using devdeer.AssetsManager.Data.Entities;
-using devdeer.AssetsManager.Logic.Interfaces.Repositories;
-using devdeer.AssetsManager.Logic.Models;
-using devdeer.AssetsManager.Repositories.Core.Base;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace devdeer.AssetsManager.Repositories.Core
+﻿namespace devdeer.AssetsManager.Repositories.Core
 {
+    using System;
+    using System.Globalization;
+    using System.Linq;
+    using System.Linq.Expressions;
+    using System.Threading.Tasks;
+
+    using AutoMapper;
+
+    using Base;
+
+    using Data.Entities;
+
+    using devdeer.AssetsManager.Data.Entities.Entities;
+    using devdeer.Libraries.Abstractions.Interfaces;
+
+    using Logic.Interfaces.Repositories;
+    using Logic.Models;
+
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.Extensions.Logging;
+
     /// <summary>
     /// The default repository for asset data access.
     /// </summary>
@@ -22,8 +29,13 @@ namespace devdeer.AssetsManager.Repositories.Core
         #region constructors and destructors
 
         /// <inheritdoc />
-        public AssetRepository(AssetsManagerContext dbContext, IMapper mapper, ILogger<AssetRepository> logger) : base(dbContext, mapper, logger)
+        public AssetRepository(
+            AssetsManagerContext dbContext,
+            IMapper mapper,
+            ILogger<AssetRepository> logger,
+            ICategoryRepository categoryRepository) : base(dbContext, mapper, logger)
         {
+            CategoryRepository = categoryRepository;
         }
 
         #endregion
@@ -34,27 +46,56 @@ namespace devdeer.AssetsManager.Repositories.Core
         protected override Expression<Func<Asset, bool>> GetEntityFilterExpression(string filterText)
         {
             filterText = filterText.ToLower();
-            return e =>
-            e.AssetKey.ToLower().Contains(filterText) ||
-            e.SerialNumber.ToLower().Contains(filterText) ||
-            e.State.ToString().ToLower().Contains(filterText) ||
-            e.AcquisitionDate.ToString("MM/dd/yyyy").Contains(filterText) ||
-            e.Availability.ToString().ToLower().Contains(filterText) || 
-            e.Ownership.ToString().ToLower().Contains(filterText) ||
-            e.Comment.ToLower().Contains(filterText) ||
-            e.ModelName.ToLower().Contains(filterText) ||
-            e.PrimaryImagePath.ToLower().Contains(filterText) ||
-            e.SecondaryImagePath.ToLower().Contains(filterText);
+            return e => e.AssetKey.ToLower()
+                .Contains(filterText) || e.SerialNumber.ToLower()
+                .Contains(filterText) || e.State.ToString()
+                .ToLower()
+                .Contains(filterText) || e.AcquisitionDate.ToString("MM/dd/yyyy")
+                .Contains(filterText) || e.Availability.ToString()
+                .ToLower()
+                .Contains(filterText) || e.Ownership.ToString()
+                .ToLower()
+                .Contains(filterText) || e.Comment.ToLower()
+                .Contains(filterText) || e.ModelName.ToLower()
+                .Contains(filterText) || e.PrimaryImagePath.ToLower()
+                .Contains(filterText) || e.SecondaryImagePath.ToLower()
+                .Contains(filterText);
         }
+
         protected override void HandleEntityBeforeCreate(Asset entity)
-        {   
-            entity.AssetKey =
+        {
+            entity.AssetKey = Guid.NewGuid().ToString("N").Substring(0, 10);
             base.HandleEntityBeforeCreate(entity);
         }
-        protected override void HandleEntityBeforeUpdate(Asset entity, Asset convertedEntity, AssetModel model)
+
+        /// <inheritdoc />
+        protected override Task HandleEntityAfterCreateAsync(Asset entity, AssetsManagerContext createContext)
         {
-            base.HandleEntityBeforeUpdate(entity, convertedEntity, model);
+            var category = CategoryRepository.GetByIdAsync(entity.CategoryId)
+                .GetAwaiter()
+                .GetResult();
+            entity.AssetKey =
+                $"DD-{category!.Label.ToUpperInvariant().Substring(0, 2)}-{entity.Id.ToString("0000", CultureInfo.InvariantCulture)}";
+            var model = GetModel(entity);
+            UpdateAsync(model!)
+                .GetAwaiter()
+                .GetResult();
+            return base.HandleEntityAfterCreateAsync(entity, createContext);
         }
+
+
+        /// <inheritdoc />
+        protected override IQueryable<Asset> InternalGetBaseQuery(AssetsManagerContext? ctx = null)
+        {
+            return base.InternalGetBaseQuery(ctx).Include(a => a.Category).Include(a => a.Location).Include(a => a.Worker).Include(a => a.Workplace);
+        }
+
+        #endregion
+
+        #region properties
+
+        private ICategoryRepository CategoryRepository { get; }
+
         #endregion
     }
 }
