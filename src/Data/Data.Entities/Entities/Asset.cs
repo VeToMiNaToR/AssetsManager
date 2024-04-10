@@ -125,13 +125,13 @@
         /// Represents the path to the picture of an asset.
         /// </summary>
         [StringLength(500)]
-        public string PrimaryImagePath { get; set; } = default!;
+        public string? PrimaryImagePath { get; set; } = default!;
 
         /// <summary>
         /// Represents the path to the picture of the label of an asset.
         /// </summary>
         [StringLength(500)]
-        public string SecondaryImagePath { get; set; } = default!;
+        public string? SecondaryImagePath { get; set; } = default!;
 
         #endregion
     }

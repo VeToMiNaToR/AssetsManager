@@ -12,7 +12,7 @@ namespace devdeer.AssetsManager.Services.CoreApi.Controllers.v1
     /// <summary>
     /// </summary>
     [ApiController]
-    [ApiVersion("4.0")]
+    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class LocationController : SimpleBaseCrudController<LocationModel, ILocationLogic>
     {

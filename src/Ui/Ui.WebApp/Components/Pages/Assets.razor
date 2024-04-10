@@ -1,0 +1,57 @@
+﻿@page "/assets"
+@using System.Text.Json
+@using System.Text.Json.Serialization
+@using devdeer.AssetsManager.Logic.Models
+@inject HttpClient HttpClient
+@attribute [StreamRendering]
+
+<PageTitle>Assets</PageTitle>
+
+<h1>Assets</h1>
+
+<MudTable Items="@Elements" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
+    <HeaderContent>
+        <MudTh>Id</MudTh>
+        <MudTh>Image</MudTh>
+        <MudTh>AssetKey</MudTh>
+        <MudTh>Availability</MudTh>
+        <MudTh>Ownership</MudTh>
+        <MudTh>Brand</MudTh>
+        <MudTh>Serial No</MudTh>
+        <MudTh>Location</MudTh>
+        <MudTh>Workplace</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Id">@context.Id</MudTd>
+        <MudTd DataLabel="Image"><MudImage Height="48" Src="@(context.PrimaryImagePath ?? "https://placehold.co/48?text=_")"></MudImage></MudTd>
+        <MudTd DataLabel="AssetKey">@context.AssetKey</MudTd>
+        <MudTd DataLabel="Availability">@context.Availability</MudTd>
+        <MudTd DataLabel="Ownership">@context.Ownership</MudTd>
+        <MudTd DataLabel="Brand">@context.Brand?.Label</MudTd>
+        <MudTd DataLabel="Serial No">@context.SerialNumber</MudTd>
+        <MudTd DataLabel="Location">@(context.Location?.Label ?? "?")</MudTd>
+        <MudTd DataLabel="Workplace">@(context.Workplace?.Label ?? "?")</MudTd>
+    </RowTemplate>
+</MudTable>
+
+@code {
+
+    private bool _loading;
+    private AssetModel[] Elements = Array.Empty<AssetModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        _loading = true;
+        var response = await HttpClient.GetAsync("Asset");
+        response.EnsureSuccessStatusCode();
+        var content = await response.Content.ReadAsStringAsync();
+        Elements = JsonSerializer.Deserialize<AssetModel[]>(content, new JsonSerializerOptions
+        {
+            PropertyNameCaseInsensitive = true,
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
+        }) ?? Array.Empty<AssetModel>();
+        _loading = false;
+    }
+
+}

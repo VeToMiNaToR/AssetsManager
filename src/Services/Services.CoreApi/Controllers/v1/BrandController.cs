@@ -17,7 +17,7 @@
     /// <summary>
     /// </summary>
     [ApiController]
-    [ApiVersion("4.0")]
+    [ApiVersion("1.0")]
     [Route("api/v{version:apiVersion}/[controller]")]
     public class BrandController : SimpleBaseCrudController<BrandModel, IBrandLogic>
     {

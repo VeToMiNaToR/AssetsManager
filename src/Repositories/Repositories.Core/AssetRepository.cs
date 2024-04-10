@@ -12,9 +12,6 @@
 
     using Data.Entities;
 
-    using devdeer.AssetsManager.Data.Entities.Entities;
-    using devdeer.Libraries.Abstractions.Interfaces;
-
     using Logic.Interfaces.Repositories;
     using Logic.Models;
 
@@ -48,24 +45,7 @@
             filterText = filterText.ToLower();
             return e => e.AssetKey.ToLower()
                 .Contains(filterText) || e.SerialNumber.ToLower()
-                .Contains(filterText) || e.State.ToString()
-                .ToLower()
-                .Contains(filterText) || e.AcquisitionDate.ToString("MM/dd/yyyy")
-                .Contains(filterText) || e.Availability.ToString()
-                .ToLower()
-                .Contains(filterText) || e.Ownership.ToString()
-                .ToLower()
-                .Contains(filterText) || e.Comment.ToLower()
-                .Contains(filterText) || e.ModelName.ToLower()
-                .Contains(filterText) || e.PrimaryImagePath.ToLower()
-                .Contains(filterText) || e.SecondaryImagePath.ToLower()
-                .Contains(filterText);
-        }
-
-        protected override void HandleEntityBeforeCreate(Asset entity)
-        {
-            entity.AssetKey = Guid.NewGuid().ToString("N").Substring(0, 10);
-            base.HandleEntityBeforeCreate(entity);
+                .Contains(filterText) || e.Comment.ToLower().Contains(filterText) || e.ModelName.ToLower().Contains(filterText);
         }
 
         /// <inheritdoc />
@@ -83,11 +63,23 @@
             return base.HandleEntityAfterCreateAsync(entity, createContext);
         }
 
+        protected override void HandleEntityBeforeCreate(Asset entity)
+        {
+            entity.AssetKey = Guid.NewGuid()
+                .ToString("N")
+                .Substring(0, 10);
+            base.HandleEntityBeforeCreate(entity);
+        }
 
         /// <inheritdoc />
         protected override IQueryable<Asset> InternalGetBaseQuery(AssetsManagerContext? ctx = null)
         {
-            return base.InternalGetBaseQuery(ctx).Include(a => a.Category).Include(a => a.Location).Include(a => a.Worker).Include(a => a.Workplace);
+            return base.InternalGetBaseQuery(ctx)
+                .Include(a => a.Category)
+                .Include(a => a.Location)
+                .Include(a => a.Worker)
+                .Include(a => a.Workplace)
+                .Include(a => a.Brand);
         }
 
         #endregion

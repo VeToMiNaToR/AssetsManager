@@ -109,12 +109,12 @@ namespace devdeer.AssetsManager.Logic.Models
         /// <summary>
         /// Represents the path to the picture of an asset.
         /// </summary>
-        public string PrimaryImagePath { get; set; } = default!;
+        public string? PrimaryImagePath { get; set; } = default!;
 
         /// <summary>
         /// Represents the path to the picture of the label of an asset.
         /// </summary>
-        public string SecondaryImagePath { get; set; } = default!;
+        public string? SecondaryImagePath { get; set; } = default!;
 
         #endregion
     }

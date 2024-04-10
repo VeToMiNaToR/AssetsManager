@@ -1,5 +1,4 @@
-﻿@using static MudBlazor.CategoryTypes
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
 
 <MudThemeProvider @bind-IsDarkMode="@IsDarkMode" Theme="_theme" />
 <MudDialogProvider />
@@ -7,7 +6,7 @@
 
 <MudLayout>
     <MudAppBar Elevation="1" Class="d-flex">
-        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick=@DrawerToggle />
+        <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@DrawerToggle" />
         <MudText Typo="Typo.h6">AssetsManager</MudText>
         <h2 class="flex-grow-1"></h2>
         <MudSwitch @bind-checked="@IsDarkMode" Color="Color.Primary" Class="ma-4" T="bool" ThumbIcon="@(IsDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" />
@@ -27,11 +26,12 @@
 @code {
     private static bool _drawerOpen = true;
     private static bool _isDarkMode;
+
     private readonly MudTheme _theme = new()
     {
-        Typography = new Typography()
+        Typography = new Typography
         {
-            Default = new Default()
+            Default = new Default
             {
                 FontFamily = new[] { "Helvetica", "Arial", "sans-serif" }
             }
@@ -63,4 +63,5 @@
         get => _drawerOpen;
         set => _drawerOpen = value;
     }
+
 }
