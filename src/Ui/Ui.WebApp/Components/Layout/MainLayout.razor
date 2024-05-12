@@ -9,7 +9,7 @@
         <MudIconButton Icon="@Icons.Material.Filled.Menu" Color="Color.Inherit" Edge="Edge.Start" OnClick="@DrawerToggle" />
         <MudText Typo="Typo.h6">AssetsManager</MudText>
         <h2 class="flex-grow-1"></h2>
-        <MudSwitch @bind-checked="@IsDarkMode" Color="Color.Primary" Class="ma-4" T="bool" ThumbIcon="@(IsDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" />
+        <MudSwitch Value="@IsDarkMode" Color="Color.Primary" Class="ma-4" T="bool" ThumbIcon="@(IsDarkMode ? Icons.Material.Filled.LightMode : Icons.Material.Filled.DarkMode)" />
         <Login />
     </MudAppBar>
     <MudDrawer @bind-Open="@IsDrawerOpen" ClipMode="DrawerClipMode.Always" Elevation="1" Variant="@DrawerVariant.Mini" OpenMiniOnHover="false">

@@ -1,15 +1,22 @@
 ﻿@page "/assets"
+@using System.Net
 @using System.Text.Json
 @using System.Text.Json.Serialization
 @using devdeer.AssetsManager.Logic.Models
+@using devdeer.AssetsManager.Ui.WebApp.Components.Dialogs
 @inject HttpClient HttpClient
+@inject IDialogService DialogService
 @attribute [StreamRendering]
 
 <PageTitle>Assets</PageTitle>
 
 <h1>Assets</h1>
 
-<MudTable Items="@Elements" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
+<MudButton @onclick="OpenDialog" Variant="Variant.Filled" Color="Color.Primary">
+    Open Simple Dialog
+</MudButton>
+
+<MudTable Items="@_elements" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info">
     <HeaderContent>
         <MudTh>Id</MudTh>
         <MudTh>Image</MudTh>
@@ -37,21 +44,33 @@
 @code {
 
     private bool _loading;
-    private AssetModel[] Elements = Array.Empty<AssetModel>();
+    private AssetModel[] _elements = [];
 
     protected override async Task OnInitializedAsync()
     {
         _loading = true;
         var response = await HttpClient.GetAsync("Asset");
+        if (response.StatusCode == HttpStatusCode.NotFound)
+        {
+            _elements = [];
+            _loading = false;
+            return;
+        }
         response.EnsureSuccessStatusCode();
         var content = await response.Content.ReadAsStringAsync();
-        Elements = JsonSerializer.Deserialize<AssetModel[]>(content, new JsonSerializerOptions
+        _elements = JsonSerializer.Deserialize<AssetModel[]>(content, new JsonSerializerOptions
         {
             PropertyNameCaseInsensitive = true,
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
-        }) ?? Array.Empty<AssetModel>();
+        }) ?? [];
         _loading = false;
+    }
+
+    private void OpenDialog()
+    {
+        var options = new DialogOptions { CloseOnEscapeKey = true };
+        DialogService.Show<SampleDialog>("Simple Dialog", options);
     }
 
 }
