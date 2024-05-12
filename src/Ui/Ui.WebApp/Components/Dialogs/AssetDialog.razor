@@ -1,0 +1,80 @@
+﻿@using System.Diagnostics
+@using devdeer.AssetsManager.Logic.Models
+@using MudBlazor.Utilities
+@inject IServiceProvider ServiceProvider
+
+<EditForm EditContext="@_context">
+    <DataAnnotationsValidator />
+    <MudGrid>
+        <MudItem xs="12" Class="pa-4">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Key" @bind-Value="CurrentAsset.AssetKey" For="@(() => CurrentAsset.AssetKey)" />
+                    <MudTextField Label="Modell" @bind-Value="CurrentAsset.ModelName" For="@(() => CurrentAsset.ModelName)" />
+                    <MudDatePicker Label="Beschaffung" @bind-Date="CurrentAsset.AcquisitionDate" For="@(() => CurrentAsset.AcquisitionDate)" Editable="true" />
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton OnClick="OnCancel">Abbrechen</MudButton>
+                    <MudButton Color="Color.Primary" @onclick="OnSubmit">OK</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+
+    private EditContext? _context;
+
+    /// <inheritdoc />
+    protected override void OnInitialized()
+    {
+        _context = new(CurrentAsset);
+        base.OnInitialized();
+    }
+
+    /// <summary>
+    /// Method to change the currently used data item on the edit context.
+    /// </summary>
+    /// <param name="model">The item to edit in this instance.</param>
+    public void SetModel(AssetModel model)
+    {
+        CurrentAsset = model;
+        _context = new(CurrentAsset);
+        _context.EnableDataAnnotationsValidation(ServiceProvider);
+        _context.OnFieldChanged += (s, e) =>
+        {
+
+        };
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// The data to bind..
+    /// </summary>
+    public AssetModel CurrentAsset { get; private set; } = new();
+
+    /// <summary>
+    /// Calls closing logic without doing anything.
+    /// </summary>
+    void OnCancel()
+    {
+        OnDone?.Invoke(false);
+    }
+
+    /// <summary>
+    /// Handler for the submit button.
+    /// </summary>
+    private async void OnSubmit()
+    {
+        if (_context?.Validate() ?? false)
+        {
+            OnDone?.Invoke(true);
+        }
+    }
+
+    /// <summary>
+    /// Defines the callback to invoke when the form can be closed.
+    /// </summary>
+    public Action<bool>? OnDone { get; set; }
+}

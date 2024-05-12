@@ -84,7 +84,7 @@ namespace devdeer.AssetsManager.Logic.Models
         /// <summary>
         /// Represents the date when the asset was aquired.
         /// </summary>
-        public DateOnly AcquisitionDate { get; set; } = default!;
+        public DateTime? AcquisitionDate { get; set; } = default!;
 
         /// <summary>
         /// Represents the usage state of an asset.
