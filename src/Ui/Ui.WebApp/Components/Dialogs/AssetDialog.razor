@@ -1,17 +1,19 @@
-﻿@using System.Diagnostics
-@using devdeer.AssetsManager.Logic.Models
-@using MudBlazor.Utilities
+﻿@using devdeer.AssetsManager.Logic.Ui.Extensions
+@using devdeer.AssetsManager.Logic.Ui.Models
+@using devdeer.AssetsManager.Logic.Ui.Services
+@implements IDisposable
 @inject IServiceProvider ServiceProvider
 
 <EditForm EditContext="@_context">
     <DataAnnotationsValidator />
+    <ValidationMessage For="() => CurrentAsset.Key" />
     <MudGrid>
         <MudItem xs="12" Class="pa-4">
             <MudCard>
                 <MudCardContent>
-                    <MudTextField Label="Key" @bind-Value="CurrentAsset.AssetKey" For="@(() => CurrentAsset.AssetKey)" />
-                    <MudTextField Label="Modell" @bind-Value="CurrentAsset.ModelName" For="@(() => CurrentAsset.ModelName)" />
-                    <MudDatePicker Label="Beschaffung" @bind-Date="CurrentAsset.AcquisitionDate" For="@(() => CurrentAsset.AcquisitionDate)" Editable="true" />
+                    @* <MudTextField Label="Key" @bind-Value="CurrentAsset.Key" For="@(() => CurrentAsset.Key)" /> *@
+                    <MudTextField Label="Model" @bind-Value="CurrentAsset.Model" For="@(() => CurrentAsset.Model)" />
+                    <MudDatePicker Label="Aquisition" @bind-Date="CurrentAsset.Aquisition" For="@(() => CurrentAsset.Aquisition)" Editable="true" />
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton OnClick="OnCancel">Abbrechen</MudButton>
@@ -25,11 +27,13 @@
 @code {
 
     private EditContext? _context;
+    private ValidationMessageStore? _messageStore;
 
     /// <inheritdoc />
     protected override void OnInitialized()
     {
-        _context = new(CurrentAsset);
+        _context = new EditContext(CurrentAsset);
+        _messageStore = new ValidationMessageStore(_context);
         base.OnInitialized();
     }
 
@@ -37,22 +41,44 @@
     /// Method to change the currently used data item on the edit context.
     /// </summary>
     /// <param name="model">The item to edit in this instance.</param>
-    public void SetModel(AssetModel model)
+    public void SetContext(AssetDialogModel model)
     {
         CurrentAsset = model;
-        _context = new(CurrentAsset);
+        _context = new EditContext(CurrentAsset);
         _context.EnableDataAnnotationsValidation(ServiceProvider);
+        _context.OnValidationRequested += OnOnValidationRequested;
         _context.OnFieldChanged += (s, e) =>
         {
-
+            _messageStore?.Clear(e.FieldIdentifier);
         };
         StateHasChanged();
     }
 
-    /// <summary>
-    /// The data to bind..
-    /// </summary>
-    public AssetModel CurrentAsset { get; private set; } = new();
+    private void OnOnValidationRequested(object? sender, ValidationRequestedEventArgs e)
+    {
+        _messageStore?.Clear();
+        if (string.IsNullOrEmpty(CurrentAsset.Key))
+        {
+            return;
+        }
+        var service = ServiceProvider.GetRequiredService<AssetService>();
+        var ok = service.GetKeyExistsAsync(CurrentAsset.Key)
+            .GetAwaiter()
+            .GetResult();
+        if (ok)
+        {
+            // TODO: THIS WORKS but the form is not reacting to it 😒
+            _messageStore?.Add(() => CurrentAsset.Key, "This key already exists");
+        }
+    }
+
+    public void Dispose()
+    {
+        if (_context is not null)
+        {
+            _context.OnValidationRequested -= OnOnValidationRequested;
+        }
+    }
 
     /// <summary>
     /// Calls closing logic without doing anything.
@@ -69,12 +95,20 @@
     {
         if (_context?.Validate() ?? false)
         {
+            var service = ServiceProvider.GetRequiredService<AssetService>();
+            await service.CreateAsync(CurrentAsset.ToModel());
             OnDone?.Invoke(true);
         }
     }
 
     /// <summary>
+    /// The data to bind..
+    /// </summary>
+    public AssetDialogModel CurrentAsset { get; private set; } = new();
+
+    /// <summary>
     /// Defines the callback to invoke when the form can be closed.
     /// </summary>
     public Action<bool>? OnDone { get; set; }
+
 }

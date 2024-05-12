@@ -37,6 +37,18 @@
 
         #endregion
 
+        #region explicit interfaces
+
+        /// <inheritdoc />
+        public async ValueTask<bool> GetKeyExistsAsync(string key)
+        {
+            return await GetBaseQuery()
+                .AsNoTracking()
+                .AnyAsync(a => a.AssetKey.ToLower() == key.ToLower());
+        }
+
+        #endregion
+
         #region methods
 
         /// <inheritdoc />
@@ -45,7 +57,9 @@
             filterText = filterText.ToLower();
             return e => e.AssetKey.ToLower()
                 .Contains(filterText) || e.SerialNumber.ToLower()
-                .Contains(filterText) || e.Comment.ToLower().Contains(filterText) || e.ModelName.ToLower().Contains(filterText);
+                .Contains(filterText) || e.Comment.ToLower()
+                .Contains(filterText) || e.ModelName.ToLower()
+                .Contains(filterText);
         }
 
         /// <inheritdoc />

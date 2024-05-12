@@ -1,16 +1,16 @@
-﻿using devdeer.AssetsManager.Logic.Interfaces.Logic;
-using devdeer.AssetsManager.Logic.Interfaces.Repositories;
-using devdeer.AssetsManager.Logic.Models;
-using devdeer.Libraries.Abstractions.BaseTypes;
-using devdeer.Libraries.Abstractions.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace devdeer.AssetsManager.Logic.Core
+﻿namespace devdeer.AssetsManager.Logic.Core
 {
+    using System;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using Interfaces.Logic;
+    using Interfaces.Repositories;
+
+    using Libraries.Abstractions.BaseTypes;
+
+    using Models;
+
     /// <summary>
     /// Default business logic for asset.
     /// </summary>
@@ -22,6 +22,26 @@ namespace devdeer.AssetsManager.Logic.Core
         public AssetLogic(IAssetRepository repository) : base(repository)
         {
         }
+
+        #endregion
+
+        #region explicit interfaces
+
+        /// <inheritdoc />
+        public async ValueTask<bool> GetKeyExistsAsync(string key)
+        {
+            return await SpecificRepository.GetKeyExistsAsync(key);
+        }
+
+        #endregion
+
+        #region properties
+
+        /// <summary>
+        /// The inherited repository cast to the specific interface type.
+        /// </summary>
+        private IAssetRepository SpecificRepository => (IAssetRepository)Repository;
+
         #endregion
     }
 }

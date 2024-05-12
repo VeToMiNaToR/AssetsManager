@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
     <PropertyGroup>
         <TargetFramework>net8.0</TargetFramework>
         <RootNamespace>devdeer.AssetsManager.Ui.WebApp</RootNamespace>
@@ -11,5 +11,6 @@
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\..\Logic\Logic.Core\Logic.Core.csproj" />
+      <ProjectReference Include="..\..\Logic\Logic.Ui\Logic.Ui.csproj" />
     </ItemGroup>
 </Project>

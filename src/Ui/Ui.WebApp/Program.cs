@@ -1,3 +1,4 @@
+using devdeer.AssetsManager.Logic.Ui.Services;
 using devdeer.AssetsManager.Ui.WebApp.Components;
 
 using Microsoft.Extensions.DependencyInjection;
@@ -15,6 +16,7 @@ builder.Services.AddScoped(
     {
         BaseAddress = new Uri("https://localhost:44301/api/v1/")
     });
+builder.Services.AddScoped<AssetService>();
 var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {

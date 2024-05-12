@@ -3,8 +3,11 @@
 @using System.Text.Json
 @using System.Text.Json.Serialization
 @using devdeer.AssetsManager.Logic.Models
+@using devdeer.AssetsManager.Logic.Ui.Extensions
+@using devdeer.AssetsManager.Logic.Ui.Models
+@using devdeer.AssetsManager.Logic.Ui.Services
 @using devdeer.AssetsManager.Ui.WebApp.Components.Dialogs
-@inject HttpClient HttpClient
+@inject AssetService Service
 @inject IDialogService DialogService
 @attribute [StreamRendering]
 
@@ -63,7 +66,7 @@
 @code {
 
     private bool _loading;
-    private AssetModel[] _elements = [];
+    private IReadOnlyCollection<AssetModel> _elements = [];
     private bool _isDialogOpen;
     private AssetDialog? _dialog;
     private int _selectedRowNumber = -1;
@@ -81,26 +84,7 @@
     private async Task ReloadAsync()
     {
         _loading = true;
-        var response = await HttpClient.GetAsync("Asset");
-        if (response.StatusCode == HttpStatusCode.NotFound)
-        {
-            _elements = [];
-            _loading = false;
-            return;
-        }
-        response.EnsureSuccessStatusCode();
-        var content = await response.Content.ReadAsStringAsync();
-        _elements = JsonSerializer.Deserialize<AssetModel[]>(
-            content,
-            new JsonSerializerOptions
-            {
-                PropertyNameCaseInsensitive = true,
-                PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-                Converters =
-                {
-                    new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
-                }
-            }) ?? [];
+        _elements = await Service.GetAllAsync();
         _loading = false;
     }
 
@@ -113,25 +97,24 @@
         {
             return;
         }
-        if (_dialog.OnDone == null)
+        // make sure that we react to dialog closing
+        _dialog.OnDone ??= success =>
         {
-            _dialog.OnDone = success =>
+            _isDialogOpen = false;
+            StateHasChanged();
+            if (success)
             {
-                _isDialogOpen = false;
-                StateHasChanged();
-                if (success)
-                {
-                    ReloadAsync()
-                        .ContinueWith(
-                            t =>
-                            {
-                                _selectedAsset = null;
-                                InvokeAsync(StateHasChanged);
-                            });
-                }
-            };
-        }
-        _dialog.SetModel(_selectedAsset ?? new AssetModel());
+                ReloadAsync()
+                    .ContinueWith(
+                        t =>
+                        {
+                            _selectedAsset = null;
+                            InvokeAsync(StateHasChanged);
+                        });
+            }
+        };
+        // set the context of the dialog to the model we need
+        _dialog.SetContext(_selectedAsset?.ToDialogModel() ?? new AssetDialogModel());
     }
 
     /// <summary>

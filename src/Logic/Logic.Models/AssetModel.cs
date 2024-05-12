@@ -69,7 +69,7 @@ namespace devdeer.AssetsManager.Logic.Models
         /// <summary>
         /// Represents a unique assetkey of an asset.
         /// </summary>
-        public string? AssetKey { get; set; } = default!;
+        public string AssetKey { get; set; } = default!;
 
         /// <summary>
         /// Represents a unique serial number of an asset.
@@ -84,7 +84,7 @@ namespace devdeer.AssetsManager.Logic.Models
         /// <summary>
         /// Represents the date when the asset was aquired.
         /// </summary>
-        public DateTime? AcquisitionDate { get; set; } = default!;
+        public DateOnly AcquisitionDate { get; set; } = default!;
 
         /// <summary>
         /// Represents the usage state of an asset.
