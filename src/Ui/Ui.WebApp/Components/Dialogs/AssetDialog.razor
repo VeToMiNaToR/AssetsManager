@@ -11,9 +11,46 @@
         <MudItem xs="12" Class="pa-4">
             <MudCard>
                 <MudCardContent>
-                    @* <MudTextField Label="Key" @bind-Value="CurrentAsset.Key" For="@(() => CurrentAsset.Key)" /> *@
+                    @*<MudTextField Label="Key" @bind-Value="CurrentAsset.Key" For="@(() => CurrentAsset.Key)" />*@
+                    <MudTextField Label="Brand" @bind-Value="CurrentAsset.Model" For="@(() => CurrentAsset.Model)" />
                     <MudTextField Label="Model" @bind-Value="CurrentAsset.Model" For="@(() => CurrentAsset.Model)" />
-                    <MudDatePicker Label="Aquisition" @bind-Date="CurrentAsset.Aquisition" For="@(() => CurrentAsset.Aquisition)" Editable="true" />
+                    <MudTextField Label="Serial Number" @bind-Value="CurrentAsset.Model" For="@(() => CurrentAsset.Model)" />
+                    <MudSelect T="string" Label="Availability" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@("Available")" />
+                        <MudSelectItem Value="@("In Use")" />
+                        <MudSelectItem Value="@("Not Available")" />
+                    </MudSelect>
+                    <MudSelect T="string" Label="Ownership" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@("Leased")" />
+                        <MudSelectItem Value="@("Rented")" />
+                        <MudSelectItem Value="@("Owned")" />
+                    </MudSelect>
+                    <MudSelect T="string" Label="Item State" AnchorOrigin="Origin.BottomCenter">
+                        <MudSelectItem Value="@("Functional")" />
+                        <MudSelectItem Value="@("Defect")" />
+                        <MudSelectItem Value="@("In Repair")" />
+                    </MudSelect>
+                    <MudTextField Label="Category" @bind-Value="CurrentAsset.Model" For="@(() => CurrentAsset.Model)" />
+                    <MudTextField Label="Location" @bind-Value="CurrentAsset.Model" For="@(() => CurrentAsset.Model)" />
+                    <MudTextField Label="Workplace" @bind-Value="CurrentAsset.Model" For="@(() => CurrentAsset.Model)" />
+                    <MudTextField Label="Assigned Worker" @bind-Value="CurrentAsset.Model" For="@(() => CurrentAsset.Model)" />
+                    <MudDatePicker Label="Aquisition Date" @bind-Date="CurrentAsset.Aquisition" For="@(() => CurrentAsset.Aquisition)" Editable="true" />
+                    <MudFileUpload T="IBrowserFile">
+                        <ButtonTemplate Context="PrimaryImage">
+                            <MudFab HtmlTag="label"
+                               Color="Color.Secondary"
+                               Icon="@Icons.Material.Filled.Image"
+                               Label="Upload Product Image"/>
+                        </ButtonTemplate>
+                    </MudFileUpload>
+                    <MudFileUpload T="IBrowserFile">
+                        <ButtonTemplate Context="SecondaryImage">
+                            <MudFab HtmlTag="label"
+                               Color="Color.Secondary"
+                               Icon="@Icons.Material.Filled.Image"
+                               Label="Upload Label Image"/>
+                        </ButtonTemplate>
+                    </MudFileUpload>
                 </MudCardContent>
                 <MudCardActions>
                     <MudButton OnClick="OnCancel">Abbrechen</MudButton>

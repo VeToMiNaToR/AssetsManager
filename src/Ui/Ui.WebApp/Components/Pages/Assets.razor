@@ -14,7 +14,7 @@
 <PageTitle>Assets</PageTitle>
 <div class="d-flex">
     <div class="d-flex flex-grow-1">
-        <MudText Typo="Typo.h6">Inventar</MudText>
+        <MudText Typo="Typo.h6">Inventory</MudText>
     </div>
     <div class="d-flex">
         <MudButton @onclick="OnNew" Variant="Variant.Filled" Color="Color.Primary">
@@ -26,27 +26,41 @@
 <MudTable Items="@_elements" Hover="true" Breakpoint="Breakpoint.Sm" Loading="@_loading" LoadingProgressColor="Color.Info" @ref="_table">
     <HeaderContent>
         <MudTh>Id</MudTh>
-        <MudTh>Image</MudTh>
+        <MudTh>Product Image</MudTh>
+        <MudTh>Label Image</MudTh>
         <MudTh>AssetKey</MudTh>
-        <MudTh>Availability</MudTh>
-        <MudTh>Ownership</MudTh>
+        <MudTh>Model</MudTh>
         <MudTh>Brand</MudTh>
-        <MudTh>Serial No</MudTh>
+        <MudTh>Availability</MudTh>
+        <MudTh>Acquisition Date</MudTh>
+        <MudTh>Ownership</MudTh>
+        <MudTh>Item State</MudTh>
+        <MudTh>Category</MudTh>
+        <MudTh>Serial Nr</MudTh>
         <MudTh>Location</MudTh>
         <MudTh>Workplace</MudTh>
+        <MudTh>Assigned Worker</MudTh>
     </HeaderContent>
     <RowTemplate>
         <MudTd DataLabel="Id">@context.Id</MudTd>
-        <MudTd DataLabel="Image">
+        <MudTd DataLabel="Product Image">
             <MudImage Height="48" Src="@(context.PrimaryImagePath ?? "https://placehold.co/48?text=_")"></MudImage>
         </MudTd>
+        <MudTd DataLabel="Label Image">
+            <MudImage Height="48" Src="@(context.SecondaryImagePath ?? "https://placehold.co/48?text=_")"></MudImage>
+        </MudTd>
         <MudTd DataLabel="AssetKey">@context.AssetKey</MudTd>
-        <MudTd DataLabel="Availability">@context.Availability</MudTd>
-        <MudTd DataLabel="Ownership">@context.Ownership</MudTd>
+        <MudTd DataLabel="Model">@context.ModelName</MudTd>
         <MudTd DataLabel="Brand">@context.Brand?.Label</MudTd>
-        <MudTd DataLabel="Serial No">@context.SerialNumber</MudTd>
+        <MudTd DataLabel="Availability">@context.Availability</MudTd>
+        <MudTd DataLabel="Acquisition Date">@context.AcquisitionDate</MudTd>
+        <MudTd DataLabel="Ownership">@context.Ownership</MudTd>
+        <MudTd DataLabel="Item State">@context.Brand?.Label</MudTd>
+        <MudTd DataLabel="Category">@context.Category?.Label</MudTd>
+        <MudTd DataLabel="Serial Nr">@context.SerialNumber</MudTd>
         <MudTd DataLabel="Location">@(context.Location?.Label ?? "?")</MudTd>
         <MudTd DataLabel="Workplace">@(context.Workplace?.Label ?? "?")</MudTd>
+        <MudTd DataLabel="Assigned Worker">@(context.Worker?.Label ?? "?")</MudTd>
     </RowTemplate>
 </MudTable>
 <MudDrawer @bind-Open="@_isDialogOpen"
